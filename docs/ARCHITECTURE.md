@@ -7,6 +7,11 @@ The current scaffold reads a fixture directory containing:
 - `current.json`
 - `proposed.json`
 
+It also supports a live inspection path:
+
+- `--proxy <address>`
+- `--rpc-url <url>`
+
 Each file describes one implementation state:
 
 - proxy metadata
@@ -23,6 +28,13 @@ The CLI routes `check` requests into three analyzers:
 1. `storage-layout`
 2. `authority-diff`
 3. `implementation-safety`
+
+The `inspect` command follows a different path:
+
+1. read EIP-1967 implementation, admin, and beacon slots
+2. classify the proxy control surface
+3. recursively inspect the admin or owner address
+4. render a reviewer-friendly on-chain context report
 
 Each analyzer emits findings in a shared shape:
 

@@ -3,6 +3,7 @@
 ## MVP
 
 - local fixture-driven analysis
+- live proxy inspection over JSON-RPC
 - storage layout risk detection
 - authority downgrade detection
 - dangerous implementation signal detection

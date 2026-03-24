@@ -9,6 +9,7 @@
   "scripts": {
     "check": "node src/index.js check --fixture fixtures/corpus/uups-admin-drift --format markdown",
     "check:json": "node src/index.js check --fixture fixtures/corpus/uups-admin-drift --format json",
+    "inspect:help": "node src/index.js inspect --help",
     "test": "node --test"
   },
   "engines": {

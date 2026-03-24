@@ -32,6 +32,7 @@ This scaffold ships with:
 
 - a zero-dependency Node CLI
 - analyzers for storage, authority, and implementation safety
+- an on-chain proxy inspection mode
 - a sample high-risk UUPS fixture
 - Markdown and JSON report output
 - a smoke test and GitHub Actions workflow
@@ -40,6 +41,14 @@ This scaffold ships with:
 
 ```bash
 node src/index.js check --fixture fixtures/corpus/uups-admin-drift --format markdown
+```
+
+Inspect a live proxy:
+
+```bash
+node src/index.js inspect \
+  --proxy 0xYourProxyAddress \
+  --rpc-url https://your-rpc.example
 ```
 
 Write a report to disk:
@@ -78,9 +87,9 @@ node src/index.js check --fixture fixtures/corpus/uups-admin-drift --strict
 
 The next milestone is where the real differentiation begins:
 
-1. Read live on-chain context from a proxy address.
-2. Diff authority semantics, not just source text.
-3. Trigger fork simulation or Diffusc only when the risk warrants it.
-4. Publish reviewer-ready artifacts directly into GitHub PRs.
+1. Diff authority semantics, not just source text.
+2. Trigger fork simulation or Diffusc only when the risk warrants it.
+3. Publish reviewer-ready artifacts directly into GitHub PRs.
+4. Merge live on-chain context with local build artifacts into one approval flow.
 
 Those are the parts that make this feel like an auditor's approval workflow rather than a one-off script.

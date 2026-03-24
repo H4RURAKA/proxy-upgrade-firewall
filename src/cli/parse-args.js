@@ -22,6 +22,18 @@ export function parseArgs(argv) {
       continue;
     }
 
+    if (arg === "--proxy") {
+      options.proxy = rest[index + 1];
+      index += 1;
+      continue;
+    }
+
+    if (arg === "--rpc-url") {
+      options.rpcUrl = rest[index + 1];
+      index += 1;
+      continue;
+    }
+
     if (arg === "--format") {
       options.format = rest[index + 1];
       index += 1;
