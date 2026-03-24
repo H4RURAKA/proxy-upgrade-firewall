@@ -14,6 +14,117 @@
     }
   },
   "output": {
+    "sources": {
+      "contracts/TreasuryVault.sol": {
+        "id": 0,
+        "ast": {
+          "nodeType": "SourceUnit",
+          "nodes": [
+            {
+              "nodeType": "ContractDefinition",
+              "name": "TreasuryVault",
+              "nodes": [
+                {
+                  "nodeType": "FunctionDefinition",
+                  "kind": "function",
+                  "name": "pause",
+                  "visibility": "external",
+                  "stateMutability": "nonpayable",
+                  "parameters": {
+                    "parameters": []
+                  },
+                  "modifiers": [
+                    {
+                      "modifierName": {
+                        "nodeType": "Identifier",
+                        "name": "onlyOwner"
+                      },
+                      "arguments": []
+                    }
+                  ],
+                  "body": {}
+                },
+                {
+                  "nodeType": "FunctionDefinition",
+                  "kind": "function",
+                  "name": "setOracle",
+                  "visibility": "external",
+                  "stateMutability": "nonpayable",
+                  "parameters": {
+                    "parameters": [
+                      {
+                        "typeDescriptions": {
+                          "typeString": "address"
+                        }
+                      }
+                    ]
+                  },
+                  "modifiers": [
+                    {
+                      "modifierName": {
+                        "nodeType": "Identifier",
+                        "name": "onlyOwner"
+                      },
+                      "arguments": []
+                    }
+                  ],
+                  "body": {}
+                },
+                {
+                  "nodeType": "FunctionDefinition",
+                  "kind": "function",
+                  "name": "emergencySweep",
+                  "visibility": "external",
+                  "stateMutability": "nonpayable",
+                  "parameters": {
+                    "parameters": [
+                      {
+                        "typeDescriptions": {
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "typeDescriptions": {
+                          "typeString": "uint256"
+                        }
+                      }
+                    ]
+                  },
+                  "modifiers": [],
+                  "body": {}
+                },
+                {
+                  "nodeType": "FunctionDefinition",
+                  "kind": "function",
+                  "name": "_authorizeUpgrade",
+                  "visibility": "internal",
+                  "stateMutability": "nonpayable",
+                  "parameters": {
+                    "parameters": [
+                      {
+                        "typeDescriptions": {
+                          "typeString": "address"
+                        }
+                      }
+                    ]
+                  },
+                  "modifiers": [
+                    {
+                      "modifierName": {
+                        "nodeType": "Identifier",
+                        "name": "onlyOwner"
+                      },
+                      "arguments": []
+                    }
+                  ],
+                  "body": {}
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
     "contracts": {
       "contracts/TreasuryVault.sol": {
         "TreasuryVault": {
@@ -47,6 +158,37 @@
                 }
               ],
               "name": "setOracle",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "newImplementation",
+                  "type": "address"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "data",
+                  "type": "bytes"
+                }
+              ],
+              "name": "upgradeToAndCall",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "newOwner",
+                  "type": "address"
+                }
+              ],
+              "name": "transferOwnership",
               "outputs": [],
               "stateMutability": "nonpayable",
               "type": "function"
@@ -151,4 +293,3 @@
     }
   }
 }
-

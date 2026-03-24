@@ -127,7 +127,8 @@ function normalizeContract({
   sourceMode,
   buildSystem,
   solcVersion,
-  format
+  format,
+  sourceAst
 }) {
   const metadata = parseMetadata(contractOutput.metadata ?? contractOutput.rawMetadata);
   const buildSettings = metadata.settings ?? {};
@@ -172,6 +173,7 @@ function normalizeContract({
     },
     storageLayout: normalizeStorageLayout(contractOutput.storageLayout),
     abi: contractOutput.abi ?? [],
+    sourceAst: sourceAst ?? null,
     abiSurface: (contractOutput.abi ?? [])
       .filter((item) => item.type === "function")
       .map((item) => functionSignatureFromAbiItem(item)),
@@ -282,7 +284,8 @@ async function loadFromBuildInfo(spec) {
     sourceMode: "build-info",
     buildSystem,
     solcVersion: match.buildInfo.solcVersion ?? null,
-    format: match.buildInfo._format ?? null
+    format: match.buildInfo._format ?? null,
+    sourceAst: match.buildInfo.output?.sources?.[match.sourceName]?.ast ?? null
   });
 }
 
@@ -313,7 +316,8 @@ async function loadFromArtifact(spec) {
         format: artifact._format
       }),
       solcVersion: parseMetadata(artifact.metadata ?? artifact.rawMetadata).compiler?.version ?? null,
-      format: artifact._format ?? null
+      format: artifact._format ?? null,
+      sourceAst: artifact.ast ?? null
     });
   }
 
@@ -343,7 +347,8 @@ async function loadFromArtifact(spec) {
     sourceMode: "artifact",
     buildSystem: "hardhat",
     solcVersion: match.buildInfo.solcVersion ?? null,
-    format: artifact._format ?? dbg._format ?? null
+    format: artifact._format ?? dbg._format ?? null,
+    sourceAst: match.buildInfo.output?.sources?.[match.sourceName]?.ast ?? null
   });
 
   normalized.inputSummary.path = `${artifactPath} (build-info: ${buildInfoPath})`;
@@ -361,4 +366,3 @@ export async function loadCompilerContract(spec) {
 
   throw new Error(`Unsupported compiler input mode: ${spec.mode}`);
 }
-

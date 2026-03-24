@@ -33,6 +33,7 @@ This scaffold ships with:
 - a zero-dependency Node CLI
 - analyzers for storage, authority, and implementation safety
 - compiler-backed artifact and build-info parsing for Hardhat and Foundry
+- AST-aware authority semantics for `_authorizeUpgrade`, `upgradeToAndCall`, and admin surface changes
 - an on-chain proxy inspection mode
 - a sample high-risk UUPS fixture
 - Markdown and JSON report output

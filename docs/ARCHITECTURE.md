@@ -44,6 +44,7 @@ The compiler-backed loader supports:
 - Hardhat build-info files or directories
 - Hardhat artifacts with sibling `.dbg.json` files
 - Foundry artifacts that include `storageLayout`, `metadata`, and bytecode output
+- AST-backed extraction of `_authorizeUpgrade` and modifier-derived guards when source AST is available
 
 The `inspect` command follows a different path:
 

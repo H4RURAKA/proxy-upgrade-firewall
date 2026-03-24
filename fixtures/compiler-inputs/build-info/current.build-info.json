@@ -14,6 +14,109 @@
     }
   },
   "output": {
+    "sources": {
+      "contracts/TreasuryVault.sol": {
+        "id": 0,
+        "ast": {
+          "nodeType": "SourceUnit",
+          "nodes": [
+            {
+              "nodeType": "ContractDefinition",
+              "name": "TreasuryVault",
+              "nodes": [
+                {
+                  "nodeType": "FunctionDefinition",
+                  "kind": "function",
+                  "name": "pause",
+                  "visibility": "external",
+                  "stateMutability": "nonpayable",
+                  "parameters": {
+                    "parameters": []
+                  },
+                  "modifiers": [
+                    {
+                      "modifierName": {
+                        "nodeType": "Identifier",
+                        "name": "onlyRole"
+                      },
+                      "arguments": [
+                        {
+                          "nodeType": "Identifier",
+                          "name": "GUARDIAN_ROLE"
+                        }
+                      ]
+                    }
+                  ],
+                  "body": {}
+                },
+                {
+                  "nodeType": "FunctionDefinition",
+                  "kind": "function",
+                  "name": "setOracle",
+                  "visibility": "external",
+                  "stateMutability": "nonpayable",
+                  "parameters": {
+                    "parameters": [
+                      {
+                        "typeDescriptions": {
+                          "typeString": "address"
+                        }
+                      }
+                    ]
+                  },
+                  "modifiers": [
+                    {
+                      "modifierName": {
+                        "nodeType": "Identifier",
+                        "name": "onlyRole"
+                      },
+                      "arguments": [
+                        {
+                          "nodeType": "Identifier",
+                          "name": "CONFIG_ROLE"
+                        }
+                      ]
+                    }
+                  ],
+                  "body": {}
+                },
+                {
+                  "nodeType": "FunctionDefinition",
+                  "kind": "function",
+                  "name": "_authorizeUpgrade",
+                  "visibility": "internal",
+                  "stateMutability": "nonpayable",
+                  "parameters": {
+                    "parameters": [
+                      {
+                        "typeDescriptions": {
+                          "typeString": "address"
+                        }
+                      }
+                    ]
+                  },
+                  "modifiers": [
+                    {
+                      "modifierName": {
+                        "nodeType": "Identifier",
+                        "name": "onlyRole"
+                      },
+                      "arguments": [
+                        {
+                          "nodeType": "Identifier",
+                          "name": "UPGRADER_ROLE"
+                        }
+                      ]
+                    }
+                  ],
+                  "body": {}
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
     "contracts": {
       "contracts/TreasuryVault.sol": {
         "TreasuryVault": {
@@ -50,6 +153,60 @@
               "outputs": [],
               "stateMutability": "nonpayable",
               "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "newImplementation",
+                  "type": "address"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "data",
+                  "type": "bytes"
+                }
+              ],
+              "name": "upgradeToAndCall",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "bytes32",
+                  "name": "role",
+                  "type": "bytes32"
+                },
+                {
+                  "internalType": "address",
+                  "name": "account",
+                  "type": "address"
+                }
+              ],
+              "name": "grantRole",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "bytes32",
+                  "name": "role",
+                  "type": "bytes32"
+                },
+                {
+                  "internalType": "address",
+                  "name": "account",
+                  "type": "address"
+                }
+              ],
+              "name": "revokeRole",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
             }
           ],
           "metadata": "{\"compiler\":{\"version\":\"0.8.24\"},\"settings\":{\"optimizer\":{\"enabled\":true,\"runs\":200},\"viaIR\":false,\"evmVersion\":\"paris\",\"metadata\":{\"bytecodeHash\":\"ipfs\"}}}",
@@ -78,6 +235,12 @@
                 "slot": "3",
                 "offset": 0,
                 "type": "t_address"
+              },
+              {
+                "label": "upgraderRole",
+                "slot": "4",
+                "offset": 0,
+                "type": "t_bytes32"
               }
             ],
             "types": {
@@ -91,6 +254,10 @@
               },
               "t_uint256": {
                 "label": "uint256",
+                "numberOfBytes": "32"
+              },
+              "t_bytes32": {
+                "label": "bytes32",
                 "numberOfBytes": "32"
               }
             }
@@ -110,4 +277,3 @@
     }
   }
 }
-

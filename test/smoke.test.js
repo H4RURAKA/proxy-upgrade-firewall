@@ -13,6 +13,5 @@ test("sample fixture yields a blocked upgrade verdict", async () => {
   assert.equal(report.summary.verdict, "block");
   assert.equal(report.summary.maxSeverity, "critical");
   assert.ok(report.findings.some((finding) => finding.id === "STORAGE-001"));
-  assert.ok(report.findings.some((finding) => finding.id === "AUTH-004"));
+  assert.ok(report.findings.some((finding) => finding.id.startsWith("AUTH-004-")));
 });
-

@@ -17,6 +17,18 @@ test("build-info mode yields compiler-backed findings", async () => {
   assert.ok(report.findings.some((finding) => finding.id === "STORAGE-001"));
   assert.ok(report.findings.some((finding) => finding.id === "ABI-001"));
   assert.ok(report.findings.some((finding) => finding.id === "COMPILER-001"));
+  assert.ok(report.findings.some((finding) => finding.id === "AUTH-003"));
+  assert.ok(report.findings.some((finding) => finding.id === "AUTH-007"));
+  assert.ok(
+    report.findings.some(
+      (finding) =>
+        finding.id === "AUTH-005-upgradetoandcall-address-bytes" &&
+        finding.evidence.some((item) => item.includes("Current guard source: _authorizeUpgrade"))
+    )
+  );
+  assert.ok(
+    report.findings.some((finding) => finding.id === "AUTH-004-emergencysweep-address-uint256")
+  );
 });
 
 test("hardhat artifacts resolve storage layout through sibling dbg files", async () => {
@@ -29,7 +41,7 @@ test("hardhat artifacts resolve storage layout through sibling dbg files", async
   });
 
   assert.equal(current.inputSummary.buildSystem, "hardhat");
-  assert.equal(current.storageLayout.length, 4);
+  assert.equal(current.storageLayout.length, 5);
   assert.equal(current.implementation.compiler.version, "0.8.24");
 });
 
@@ -46,4 +58,3 @@ test("foundry artifacts use embedded storage layout and metadata directly", asyn
   assert.equal(proposed.storageLayout[1].label, "emergencyAdmin");
   assert.equal(proposed.securitySignals.delegatecall, true);
 });
-
