@@ -3,6 +3,7 @@
 ## MVP
 
 - local fixture-driven analysis
+- compiler-backed Hardhat and Foundry input parsing
 - live proxy inspection over JSON-RPC
 - storage layout risk detection
 - authority downgrade detection

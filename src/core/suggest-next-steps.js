@@ -22,10 +22,17 @@ export function suggestNextSteps(findings, summary) {
     steps.push("Review initializer locking and dangerous opcode usage in the new implementation before deployment.");
   }
 
+  if (tags.has("abi")) {
+    steps.push("Review every newly added mutable external function and confirm which roles or governance paths are intended to call it.");
+  }
+
+  if (tags.has("compiler")) {
+    steps.push("Rebuild both versions with pinned compiler settings and confirm that optimizer, viaIR, and metadata settings changed intentionally.");
+  }
+
   if (steps.length === 0) {
     steps.push("No escalations suggested by the current rule set.");
   }
 
   return steps;
 }
-

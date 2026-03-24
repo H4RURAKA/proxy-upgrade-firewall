@@ -6,6 +6,8 @@ const HELP_TEXT = `Proxy Upgrade Firewall
 
 Usage:
   node src/index.js check --fixture <dir> [--format markdown|json] [--output <file>] [--strict]
+  node src/index.js check --current-build-info <file-or-dir> --proposed-build-info <file-or-dir> --contract <source:contract>
+  node src/index.js check --current-artifact <file> --proposed-artifact <file>
   node src/index.js inspect --proxy <address> --rpc-url <url> [--format markdown|json] [--output <file>]
 
 Commands:

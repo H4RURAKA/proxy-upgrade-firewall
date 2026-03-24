@@ -1,0 +1,11 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "TreasuryVault",
+  "sourceName": "contracts/TreasuryVault.sol",
+  "abi": [],
+  "bytecode": "0x60016000f4600055",
+  "deployedBytecode": "0x60016000f4600055",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
+

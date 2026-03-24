@@ -1,8 +1,10 @@
 import path from "node:path";
-import { loadFixturePair } from "../core/load-fixture.js";
+import { loadComparisonPair } from "../core/load-comparison-pair.js";
 import { analyzeStorageLayout } from "../analyzers/storage-layout.js";
 import { analyzeAuthorityDiff } from "../analyzers/authority-diff.js";
 import { analyzeImplementationSafety } from "../analyzers/implementation-safety.js";
+import { analyzeAbiSurface } from "../analyzers/abi-surface.js";
+import { analyzeCompilerMetadata } from "../analyzers/compiler-metadata.js";
 import { buildSummary } from "../core/risk-model.js";
 import { suggestNextSteps } from "../core/suggest-next-steps.js";
 import { renderMarkdown } from "../report/render-markdown.js";
@@ -11,17 +13,14 @@ import { sortFindings } from "../utils/severity.js";
 import { writeText } from "../utils/file-system.js";
 
 export async function runCheckCommand(options) {
-  if (!options.fixture) {
-    throw new Error("Missing required --fixture <dir> option.");
-  }
-
-  const fixtureDir = path.resolve(options.fixture);
-  const { current, proposed } = await loadFixturePair(fixtureDir);
+  const { current, proposed, inputMode, inputs } = await loadComparisonPair(options);
 
   const findings = [
     ...analyzeStorageLayout(current, proposed),
     ...analyzeAuthorityDiff(current, proposed),
-    ...analyzeImplementationSafety(current, proposed)
+    ...analyzeImplementationSafety(current, proposed),
+    ...analyzeAbiSurface(current, proposed),
+    ...analyzeCompilerMetadata(current, proposed)
   ].sort(sortFindings);
 
   const summary = buildSummary(findings);
@@ -29,13 +28,16 @@ export async function runCheckCommand(options) {
 
   const report = {
     generatedAt: new Date().toISOString(),
-    fixtureDir,
+    inputMode,
+    inputs,
     subject: {
       proxyName: proposed.proxy?.name ?? current.proxy?.name ?? "UnknownProxy",
       proxyAddress: proposed.proxy?.address ?? current.proxy?.address ?? "unknown",
       upgradeKind: proposed.proxy?.kind ?? current.proxy?.kind ?? "unknown",
       currentImplementation: current.implementation?.name ?? "unknown",
-      proposedImplementation: proposed.implementation?.name ?? "unknown"
+      proposedImplementation: proposed.implementation?.name ?? "unknown",
+      currentSourceName: current.implementation?.sourceName ?? "unknown",
+      proposedSourceName: proposed.implementation?.sourceName ?? "unknown"
     },
     summary,
     findings,
@@ -59,4 +61,3 @@ export async function runCheckCommand(options) {
 
   return report;
 }
-

@@ -1,0 +1,113 @@
+{
+  "_format": "hh-sol-build-info-1",
+  "id": "treasury-v1",
+  "solcVersion": "0.8.24",
+  "input": {
+    "language": "Solidity",
+    "settings": {
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "viaIR": false,
+      "evmVersion": "paris"
+    }
+  },
+  "output": {
+    "contracts": {
+      "contracts/TreasuryVault.sol": {
+        "TreasuryVault": {
+          "abi": [
+            {
+              "inputs": [],
+              "name": "owner",
+              "outputs": [
+                {
+                  "internalType": "address",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "pause",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "oracle",
+                  "type": "address"
+                }
+              ],
+              "name": "setOracle",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            }
+          ],
+          "metadata": "{\"compiler\":{\"version\":\"0.8.24\"},\"settings\":{\"optimizer\":{\"enabled\":true,\"runs\":200},\"viaIR\":false,\"evmVersion\":\"paris\",\"metadata\":{\"bytecodeHash\":\"ipfs\"}}}",
+          "storageLayout": {
+            "storage": [
+              {
+                "label": "owner",
+                "slot": "0",
+                "offset": 0,
+                "type": "t_address"
+              },
+              {
+                "label": "paused",
+                "slot": "1",
+                "offset": 0,
+                "type": "t_bool"
+              },
+              {
+                "label": "feeBps",
+                "slot": "2",
+                "offset": 0,
+                "type": "t_uint256"
+              },
+              {
+                "label": "asset",
+                "slot": "3",
+                "offset": 0,
+                "type": "t_address"
+              }
+            ],
+            "types": {
+              "t_address": {
+                "label": "address",
+                "numberOfBytes": "20"
+              },
+              "t_bool": {
+                "label": "bool",
+                "numberOfBytes": "1"
+              },
+              "t_uint256": {
+                "label": "uint256",
+                "numberOfBytes": "32"
+              }
+            }
+          },
+          "evm": {
+            "bytecode": {
+              "object": "0x6001600055",
+              "opcodes": "PUSH1 0x01 PUSH1 0x00 SSTORE"
+            },
+            "deployedBytecode": {
+              "object": "0x6001600055",
+              "opcodes": "PUSH1 0x01 PUSH1 0x00 SSTORE"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

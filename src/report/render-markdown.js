@@ -11,6 +11,14 @@ export function renderMarkdown(report) {
   lines.push(`- Risk score: ${report.summary.riskScore}/100`);
   lines.push(`- Max severity: ${report.summary.maxSeverity}`);
   lines.push("");
+  if (Array.isArray(report.inputs) && report.inputs.length > 0) {
+    lines.push("## Inputs");
+    lines.push("");
+    for (const input of report.inputs) {
+      lines.push(`- ${input.label}: ${input.mode} | ${input.contract} | ${input.path}`);
+    }
+    lines.push("");
+  }
   lines.push("## Findings");
   lines.push("");
 
@@ -42,4 +50,3 @@ export function renderMarkdown(report) {
   lines.push("");
   return lines.join("\n");
 }
-

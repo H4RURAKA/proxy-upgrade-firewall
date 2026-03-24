@@ -16,6 +16,48 @@ export function parseArgs(argv) {
       continue;
     }
 
+    if (arg === "--current-build-info") {
+      options.currentBuildInfo = rest[index + 1];
+      index += 1;
+      continue;
+    }
+
+    if (arg === "--proposed-build-info") {
+      options.proposedBuildInfo = rest[index + 1];
+      index += 1;
+      continue;
+    }
+
+    if (arg === "--current-artifact") {
+      options.currentArtifact = rest[index + 1];
+      index += 1;
+      continue;
+    }
+
+    if (arg === "--proposed-artifact") {
+      options.proposedArtifact = rest[index + 1];
+      index += 1;
+      continue;
+    }
+
+    if (arg === "--contract") {
+      options.contract = rest[index + 1];
+      index += 1;
+      continue;
+    }
+
+    if (arg === "--current-contract") {
+      options.currentContract = rest[index + 1];
+      index += 1;
+      continue;
+    }
+
+    if (arg === "--proposed-contract") {
+      options.proposedContract = rest[index + 1];
+      index += 1;
+      continue;
+    }
+
     if (arg === "--output") {
       options.output = rest[index + 1];
       index += 1;

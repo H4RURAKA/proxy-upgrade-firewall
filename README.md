@@ -32,6 +32,7 @@ This scaffold ships with:
 
 - a zero-dependency Node CLI
 - analyzers for storage, authority, and implementation safety
+- compiler-backed artifact and build-info parsing for Hardhat and Foundry
 - an on-chain proxy inspection mode
 - a sample high-risk UUPS fixture
 - Markdown and JSON report output
@@ -49,6 +50,15 @@ Inspect a live proxy:
 node src/index.js inspect \
   --proxy 0xYourProxyAddress \
   --rpc-url https://your-rpc.example
+```
+
+Run a compiler-backed comparison from build-info:
+
+```bash
+node src/index.js check \
+  --current-build-info fixtures/compiler-inputs/build-info/current.build-info.json \
+  --proposed-build-info fixtures/compiler-inputs/build-info/proposed.build-info.json \
+  --contract contracts/TreasuryVault.sol:TreasuryVault
 ```
 
 Write a report to disk:

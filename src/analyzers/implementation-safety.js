@@ -3,7 +3,7 @@ export function analyzeImplementationSafety(current, proposed) {
   const currentSignals = current.securitySignals ?? {};
   const proposedSignals = proposed.securitySignals ?? {};
 
-  if (!currentSignals.delegatecall && proposedSignals.delegatecall) {
+  if (currentSignals.delegatecall === false && proposedSignals.delegatecall === true) {
     findings.push({
       id: "IMPL-001",
       category: "implementation",
@@ -19,7 +19,7 @@ export function analyzeImplementationSafety(current, proposed) {
     });
   }
 
-  if (!currentSignals.selfdestruct && proposedSignals.selfdestruct) {
+  if (currentSignals.selfdestruct === false && proposedSignals.selfdestruct === true) {
     findings.push({
       id: "IMPL-002",
       category: "implementation",
@@ -35,7 +35,10 @@ export function analyzeImplementationSafety(current, proposed) {
     });
   }
 
-  if (currentSignals.disableInitializersInConstructor && !proposedSignals.disableInitializersInConstructor) {
+  if (
+    currentSignals.disableInitializersInConstructor === true &&
+    proposedSignals.disableInitializersInConstructor === false
+  ) {
     findings.push({
       id: "IMPL-003",
       category: "implementation",
@@ -53,4 +56,3 @@ export function analyzeImplementationSafety(current, proposed) {
 
   return findings;
 }
-

@@ -9,6 +9,7 @@
   "scripts": {
     "check": "node src/index.js check --fixture fixtures/corpus/uups-admin-drift --format markdown",
     "check:json": "node src/index.js check --fixture fixtures/corpus/uups-admin-drift --format json",
+    "check:build-info": "node src/index.js check --current-build-info fixtures/compiler-inputs/build-info/current.build-info.json --proposed-build-info fixtures/compiler-inputs/build-info/proposed.build-info.json --contract contracts/TreasuryVault.sol:TreasuryVault --format markdown",
     "inspect:help": "node src/index.js inspect --help",
     "test": "node --test"
   },

@@ -1,0 +1,101 @@
+{
+  "contractName": "TreasuryVault",
+  "sourceName": "contracts/TreasuryVault.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "pause",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "emergencySweep",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": {
+    "compiler": {
+      "version": "0.8.25"
+    },
+    "settings": {
+      "optimizer": {
+        "enabled": true,
+        "runs": 500
+      },
+      "viaIR": true,
+      "evmVersion": "shanghai",
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      }
+    }
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "label": "owner",
+        "slot": "0",
+        "offset": 0,
+        "type": "t_address"
+      },
+      {
+        "label": "emergencyAdmin",
+        "slot": "1",
+        "offset": 0,
+        "type": "t_address"
+      },
+      {
+        "label": "paused",
+        "slot": "2",
+        "offset": 0,
+        "type": "t_bool"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_bool": {
+        "label": "bool",
+        "numberOfBytes": "1"
+      }
+    }
+  },
+  "bytecode": {
+    "object": "0x60016000f4600055",
+    "opcodes": "PUSH1 0x01 PUSH1 0x00 DELEGATECALL SSTORE"
+  },
+  "deployedBytecode": {
+    "object": "0x60016000f4600055",
+    "opcodes": "PUSH1 0x01 PUSH1 0x00 DELEGATECALL SSTORE"
+  }
+}
+
