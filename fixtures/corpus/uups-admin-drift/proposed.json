@@ -1,0 +1,81 @@
+{
+  "chain": "ethereum",
+  "proxy": {
+    "address": "0x1111111111111111111111111111111111111111",
+    "kind": "uups",
+    "name": "TreasuryVaultProxy"
+  },
+  "governance": {
+    "controllerPath": [
+      "OwnerEOA",
+      "Proxy"
+    ],
+    "upgradeDelaySeconds": 0,
+    "upgradeAuthorizer": "onlyOwner"
+  },
+  "implementation": {
+    "name": "TreasuryVaultV2",
+    "solc": "0.8.24",
+    "commit": "5d2e7bf"
+  },
+  "storageLayout": [
+    {
+      "label": "owner",
+      "type": "address",
+      "slot": "0"
+    },
+    {
+      "label": "emergencyAdmin",
+      "type": "address",
+      "slot": "1"
+    },
+    {
+      "label": "paused",
+      "type": "bool",
+      "slot": "2"
+    },
+    {
+      "label": "feeBps",
+      "type": "uint256",
+      "slot": "3"
+    },
+    {
+      "label": "asset",
+      "type": "address",
+      "slot": "4"
+    },
+    {
+      "label": "lastRebalanceTimestamp",
+      "type": "uint64",
+      "slot": "5"
+    }
+  ],
+  "privilegedFunctions": [
+    {
+      "signature": "upgradeToAndCall(address,bytes)",
+      "guard": "onlyOwner",
+      "kind": "upgrade"
+    },
+    {
+      "signature": "setOracle(address)",
+      "guard": "onlyOwner",
+      "kind": "config"
+    },
+    {
+      "signature": "pause()",
+      "guard": "onlyRole(GUARDIAN_ROLE)",
+      "kind": "safety"
+    },
+    {
+      "signature": "emergencySweep(address,uint256)",
+      "guard": "none",
+      "kind": "funds"
+    }
+  ],
+  "securitySignals": {
+    "delegatecall": true,
+    "selfdestruct": false,
+    "disableInitializersInConstructor": false
+  }
+}
+

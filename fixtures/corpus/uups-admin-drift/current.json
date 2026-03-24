@@ -1,0 +1,67 @@
+{
+  "chain": "ethereum",
+  "proxy": {
+    "address": "0x1111111111111111111111111111111111111111",
+    "kind": "uups",
+    "name": "TreasuryVaultProxy"
+  },
+  "governance": {
+    "controllerPath": [
+      "Safe(2/3)",
+      "Timelock(48h)",
+      "Proxy"
+    ],
+    "upgradeDelaySeconds": 172800,
+    "upgradeAuthorizer": "onlyRole(UPGRADER_ROLE)"
+  },
+  "implementation": {
+    "name": "TreasuryVaultV1",
+    "solc": "0.8.24",
+    "commit": "8a1d6c4"
+  },
+  "storageLayout": [
+    {
+      "label": "owner",
+      "type": "address",
+      "slot": "0"
+    },
+    {
+      "label": "paused",
+      "type": "bool",
+      "slot": "1"
+    },
+    {
+      "label": "feeBps",
+      "type": "uint256",
+      "slot": "2"
+    },
+    {
+      "label": "asset",
+      "type": "address",
+      "slot": "3"
+    }
+  ],
+  "privilegedFunctions": [
+    {
+      "signature": "upgradeToAndCall(address,bytes)",
+      "guard": "onlyRole(UPGRADER_ROLE)",
+      "kind": "upgrade"
+    },
+    {
+      "signature": "setOracle(address)",
+      "guard": "onlyRole(CONFIG_ROLE)",
+      "kind": "config"
+    },
+    {
+      "signature": "pause()",
+      "guard": "onlyRole(GUARDIAN_ROLE)",
+      "kind": "safety"
+    }
+  ],
+  "securitySignals": {
+    "delegatecall": false,
+    "selfdestruct": false,
+    "disableInitializersInConstructor": true
+  }
+}
+
