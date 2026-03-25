@@ -12,8 +12,8 @@ import { renderJson } from "../report/render-json.js";
 import { sortFindings } from "../utils/severity.js";
 import { writeText } from "../utils/file-system.js";
 
-export async function runCheckCommand(options) {
-  const { current, proposed, inputMode, inputs } = await loadComparisonPair(options);
+export async function runCheckCommand(options, dependencies = {}) {
+  const { current, proposed, inputMode, inputs } = await loadComparisonPair(options, dependencies);
 
   const findings = [
     ...analyzeStorageLayout(current, proposed),

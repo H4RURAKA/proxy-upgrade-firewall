@@ -1,6 +1,7 @@
 import path from "node:path";
 import { loadFixturePair } from "./load-fixture.js";
 import { loadCompilerContract } from "./load-compiler-contract.js";
+import { loadLiveProxyComparisonPair } from "./load-live-proxy-pair.js";
 
 function resolveCompilerSpec(options, side) {
   const buildInfoOption = side === "current" ? options.currentBuildInfo : options.proposedBuildInfo;
@@ -27,7 +28,7 @@ function resolveCompilerSpec(options, side) {
   return null;
 }
 
-export async function loadComparisonPair(options) {
+export async function loadComparisonPair(options, dependencies = {}) {
   if (options.fixture) {
     const fixtureDir = path.resolve(options.fixture);
     const pair = await loadFixturePair(fixtureDir);
@@ -48,14 +49,21 @@ export async function loadComparisonPair(options) {
   const currentSpec = resolveCompilerSpec(options, "current");
   const proposedSpec = resolveCompilerSpec(options, "proposed");
 
+  if (!currentSpec && proposedSpec && options.proxy && options.rpcUrl) {
+    return loadLiveProxyComparisonPair(options, {
+      ...dependencies,
+      proposedSpec
+    });
+  }
+
   if (!currentSpec || !proposedSpec) {
     throw new Error(
-      "Provide either --fixture <dir> or both current/proposed compiler-backed inputs (--current-build-info/--proposed-build-info or --current-artifact/--proposed-artifact)."
+      "Provide either --fixture <dir>, both current/proposed compiler-backed inputs (--current-build-info/--proposed-build-info or --current-artifact/--proposed-artifact), or --proxy/--rpc-url with a proposed compiler-backed input."
     );
   }
 
-  const current = await loadCompilerContract(currentSpec);
-  const proposed = await loadCompilerContract(proposedSpec);
+  const current = await (dependencies.loadCompilerContract ?? loadCompilerContract)(currentSpec);
+  const proposed = await (dependencies.loadCompilerContract ?? loadCompilerContract)(proposedSpec);
 
   return {
     current,
@@ -73,4 +81,3 @@ export async function loadComparisonPair(options) {
     ]
   };
 }
-

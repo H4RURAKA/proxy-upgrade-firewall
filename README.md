@@ -72,6 +72,16 @@ node src/index.js check \
   --contract GovernedVault
 ```
 
+Compare a live proxy against a local proposed implementation:
+
+```bash
+node src/index.js check \
+  --proxy 0x8d0d000ee44948fc98c9b98a4fa4921476f08b0d \
+  --rpc-url https://ethereum-rpc.publicnode.com \
+  --proposed-build-info fixtures/real-world/governance-downgrade/build/proposed.build-info.json \
+  --contract GovernedVault
+```
+
 Write a report to disk:
 
 ```bash

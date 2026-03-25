@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { execFileSync } from "node:child_process";
+import { buildBuildInfo, compileStandardJson } from "../src/core/compile-solidity.js";
 
 const [sourceFile, outputFile] = process.argv.slice(2);
 
@@ -43,30 +43,16 @@ const input = {
   }
 };
 
-const raw = execFileSync(
-  "npm",
-  ["exec", "--yes", "--package", "solc@0.8.25", "solcjs", "--", "--standard-json"],
-  {
-    input: JSON.stringify(input),
-    encoding: "utf8",
-    maxBuffer: 20 * 1024 * 1024
-  }
-);
-
-const firstBrace = raw.indexOf("{");
-const lastBrace = raw.lastIndexOf("}");
-if (firstBrace === -1 || lastBrace === -1 || lastBrace <= firstBrace) {
-  throw new Error(`Unexpected solc output:\n${raw}`);
-}
-
-const output = JSON.parse(raw.slice(firstBrace, lastBrace + 1));
-const buildInfo = {
-  _format: "manual-solc-build-info-1",
-  id: path.basename(absoluteOutput, ".json"),
-  solcVersion: "0.8.25",
+const output = compileStandardJson({
   input,
-  output
-};
+  solcVersion: "0.8.25"
+});
+const buildInfo = buildBuildInfo({
+  input,
+  output,
+  solcVersion: "0.8.25",
+  id: path.basename(absoluteOutput, ".json")
+});
 
 await fs.mkdir(path.dirname(absoluteOutput), { recursive: true });
 await fs.writeFile(absoluteOutput, `${JSON.stringify(buildInfo, null, 2)}\n`, "utf8");
