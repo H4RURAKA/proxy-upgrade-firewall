@@ -88,6 +88,12 @@ Replay live proxies against derived dangerous proposals:
 node scripts/replay-live-derived-dangerous-upgrades.mjs --limit 5
 ```
 
+Explore actual historical upgrade pairs across ready live proxies:
+
+```bash
+node scripts/explore-historical-upgrades.mjs
+```
+
 Write a report to disk:
 
 ```bash

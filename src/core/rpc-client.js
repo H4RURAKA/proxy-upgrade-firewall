@@ -33,6 +33,9 @@ export function createRpcClient(rpcUrl, fetchImpl = globalThis.fetch) {
 
   return {
     request,
+    getBlockNumber() {
+      return request("eth_blockNumber", []);
+    },
     getChainId() {
       return request("eth_chainId", []);
     },
@@ -42,9 +45,11 @@ export function createRpcClient(rpcUrl, fetchImpl = globalThis.fetch) {
     getStorageAt(address, slot, blockTag = "latest") {
       return request("eth_getStorageAt", [address, slot, blockTag]);
     },
+    getLogs(filter) {
+      return request("eth_getLogs", [filter]);
+    },
     call(address, data, blockTag = "latest") {
       return request("eth_call", [{ to: address, data }, blockTag]);
     }
   };
 }
-
