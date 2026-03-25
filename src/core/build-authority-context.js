@@ -110,6 +110,15 @@ function classifyFunctionKind(name, signature) {
     return "admin";
   }
 
+  if (
+    text.includes("delegatecall") ||
+    text.includes("forward") ||
+    text.includes("execute") ||
+    text.includes("multicall")
+  ) {
+    return "execution";
+  }
+
   if (text.includes("pause") || text.includes("unpause") || text.includes("freeze")) {
     return "safety";
   }
@@ -142,6 +151,10 @@ function isPotentiallyPrivilegedName(name) {
     text.includes("pause") ||
     text.includes("sweep") ||
     text.includes("rescue") ||
+    text.includes("forward") ||
+    text.includes("execute") ||
+    text.includes("multicall") ||
+    text.includes("delegate") ||
     text.includes("oracle") ||
     text.includes("guardian") ||
     text.includes("rebalance") ||

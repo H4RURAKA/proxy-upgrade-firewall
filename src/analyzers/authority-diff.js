@@ -207,7 +207,7 @@ export function analyzeAuthorityDiff(current, proposed) {
       const isClearlyUnguarded = proposedFunction.guard === "none";
       const isUnknownHighRisk =
         proposedFunction.guard === "unknown" &&
-        ["funds", "upgrade", "admin"].includes(proposedFunction.kind);
+        ["funds", "upgrade", "admin", "execution"].includes(proposedFunction.kind);
 
       if (isClearlyUnguarded || isUnknownHighRisk) {
         findings.push({
