@@ -82,6 +82,12 @@ node src/index.js check \
   --contract GovernedVault
 ```
 
+Replay live proxies against derived dangerous proposals:
+
+```bash
+node scripts/replay-live-derived-dangerous-upgrades.mjs --limit 5
+```
+
 Write a report to disk:
 
 ```bash

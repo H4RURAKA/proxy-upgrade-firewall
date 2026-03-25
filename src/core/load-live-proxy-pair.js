@@ -42,7 +42,7 @@ async function fetchText(url, fetchImpl) {
   return response.text();
 }
 
-function buildSourcifyInput(metadata, sources) {
+export function buildSourcifyInput(metadata, sources) {
   const { compilationTarget, ...restSettings } = metadata.settings ?? {};
 
   return {
@@ -134,6 +134,16 @@ export async function materializeVerifiedBuildInfo({
     implementationAddress,
     fetchImpl
   });
+  return materializeSourcifyBundleBuildInfo({
+    bundle,
+    id: `live-${chainId}-${implementationAddress.toLowerCase()}`
+  });
+}
+
+export async function materializeSourcifyBundleBuildInfo({
+  bundle,
+  id = `live-${bundle.target.selector}`
+}) {
   const input = buildSourcifyInput(bundle.metadata, bundle.sources);
   const output = compileStandardJson({
     input,
@@ -146,7 +156,7 @@ export async function materializeVerifiedBuildInfo({
     input,
     output,
     solcVersion: bundle.metadata.compiler?.version,
-    id: `live-${chainId}-${implementationAddress.toLowerCase()}`
+    id
   });
 
   await fs.writeFile(buildInfoPath, `${JSON.stringify(buildInfo, null, 2)}\n`, "utf8");
