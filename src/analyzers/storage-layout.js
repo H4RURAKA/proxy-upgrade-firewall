@@ -2,6 +2,26 @@ function slotEntry(layout, index) {
   return layout[index] ?? null;
 }
 
+function normalizeTypeLabel(entry) {
+  const value = String(entry?.typeLabel ?? entry?.type ?? "")
+    .replace(/\)\d+(_storage|_memory|_calldata)/g, ")$1")
+    .replace(/\b\d+_storage\b/g, "_storage")
+    .replace(/\b\d+_memory\b/g, "_memory")
+    .replace(/\b\d+_calldata\b/g, "_calldata")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  return value;
+}
+
+function sameStorageShape(before, after) {
+  return (
+    String(before.slot) === String(after.slot) &&
+    String(before.offset ?? 0) === String(after.offset ?? 0) &&
+    normalizeTypeLabel(before) === normalizeTypeLabel(after)
+  );
+}
+
 export function analyzeStorageLayout(current, proposed) {
   const findings = [];
   const currentLayout = current.storageLayout ?? [];
@@ -12,10 +32,7 @@ export function analyzeStorageLayout(current, proposed) {
     const before = slotEntry(currentLayout, index);
     const after = slotEntry(proposedLayout, index);
 
-    const shifted =
-      before.label !== after.label ||
-      before.type !== after.type ||
-      before.slot !== after.slot;
+    const shifted = !sameStorageShape(before, after);
 
     if (shifted) {
       findings.push({
@@ -25,8 +42,8 @@ export function analyzeStorageLayout(current, proposed) {
         title: "Storage layout shifted before the end of the existing slot map",
         body: "An existing storage slot changed position or meaning. In a proxy upgrade this can corrupt live state and should block the rollout.",
         evidence: [
-          `Current slot ${index}: ${before.label} (${before.type}) at slot ${before.slot}`,
-          `Proposed slot ${index}: ${after.label} (${after.type}) at slot ${after.slot}`
+          `Current slot ${index}: ${before.label} (${normalizeTypeLabel(before)}) at slot ${before.slot}`,
+          `Proposed slot ${index}: ${after.label} (${normalizeTypeLabel(after)}) at slot ${after.slot}`
         ],
         recommendation: "Append new variables only after the existing layout or move mutable state into namespaced storage.",
         tags: ["storage", "upgrade"]
@@ -36,10 +53,7 @@ export function analyzeStorageLayout(current, proposed) {
   }
 
   if (proposedLayout.length > currentLayout.length) {
-    const currentLabels = new Set(currentLayout.map((entry) => entry.label));
-    const added = proposedLayout
-      .filter((entry) => !currentLabels.has(entry.label))
-      .map((entry) => entry.label);
+    const added = proposedLayout.slice(currentLayout.length).map((entry) => entry.label);
 
     if (added.length > 0) {
       findings.push({

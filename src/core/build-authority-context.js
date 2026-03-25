@@ -141,8 +141,31 @@ function classifyFunctionKind(name, signature) {
   return "misc";
 }
 
+function isLikelySelfAuthorizedFlow(name) {
+  const text = lower(name);
+  return (
+    text.endsWith("bysig") ||
+    text.includes("withauthorization") ||
+    text.includes("authorization") ||
+    text.includes("permit")
+  );
+}
+
 function isPotentiallyPrivilegedName(name) {
   const text = lower(name);
+  if (
+    isLikelySelfAuthorizedFlow(name) &&
+    !text.includes("owner") &&
+    !text.includes("admin") &&
+    !text.includes("role") &&
+    !text.includes("upgrade") &&
+    !text.includes("pause") &&
+    !text.includes("sweep") &&
+    !text.includes("rescue")
+  ) {
+    return false;
+  }
+
   return (
     text.includes("upgrade") ||
     text.includes("admin") ||
@@ -162,8 +185,27 @@ function isPotentiallyPrivilegedName(name) {
   );
 }
 
-function inferKnownGuard(signature, upgradeHook) {
+function contractGuardSignals(contract) {
+  const controlLabels = (contract.storageLayout ?? []).map((entry) => lower(entry.label));
+  const functionNames = (contract.abi ?? [])
+    .filter((item) => item.type === "function")
+    .map((item) => item.name);
+
+  return {
+    hasOwner:
+      controlLabels.some((label) => label.includes("owner")) ||
+      functionNames.some((name) =>
+        ["owner", "transferOwnership", "acceptOwnership", "renounceOwnership"].includes(name)
+      ),
+    hasRole:
+      controlLabels.some((label) => label.includes("role")) ||
+      functionNames.some((name) => ["grantRole", "revokeRole", "setRoleAdmin", "hasRole"].includes(name))
+  };
+}
+
+function inferKnownGuard(signature, upgradeHook, contract) {
   const name = signature.split("(")[0];
+  const signals = contract ? contractGuardSignals(contract) : { hasOwner: false, hasRole: false };
 
   if (name === "upgradeTo" || name === "upgradeToAndCall") {
     return upgradeHook?.guard ?? "unknown";
@@ -189,6 +231,14 @@ function inferKnownGuard(signature, upgradeHook) {
     return "onlyProxyAdmin";
   }
 
+  if ((name === "pause" || name === "unpause" || name === "freeze" || name === "unfreeze") && signals.hasRole) {
+    return "onlyRole(heuristic)";
+  }
+
+  if ((name === "pause" || name === "unpause" || name === "freeze" || name === "unfreeze") && signals.hasOwner) {
+    return "onlyOwner(heuristic)";
+  }
+
   return "unknown";
 }
 
@@ -207,6 +257,88 @@ function extractAstFunctions(sourceAst, contractName) {
     return [];
   }
 
+  function expressionText(node) {
+    return lower(expressionToLabel(node));
+  }
+
+  function collectBodyGuardHints(node, hints = new Set()) {
+    if (!node || typeof node !== "object") {
+      return hints;
+    }
+
+    if (Array.isArray(node)) {
+      for (const item of node) {
+        collectBodyGuardHints(item, hints);
+      }
+      return hints;
+    }
+
+    if (node.nodeType === "FunctionCall") {
+      const target = expressionText(node.expression);
+
+      if (target.includes("_checkowner") || target.includes("checkowner")) {
+        hints.add("onlyOwner");
+      }
+
+      if (target.includes("_checkrole") || target.includes("hasrole") || target.includes("onlyrole")) {
+        hints.add("onlyRole");
+      }
+
+      if (target.includes("timelock") || target.includes("governance") || target.includes("governor")) {
+        hints.add("governance");
+      }
+
+      if (target === "require" || target === "assert") {
+        const condition = expressionText(node.arguments?.[0]);
+        const checksSender = condition.includes("msg.sender") || condition.includes("_msgsender");
+
+        if (checksSender && (condition.includes("owner") || condition.includes("_owner"))) {
+          hints.add("onlyOwner");
+        }
+
+        if (checksSender && condition.includes("pendingowner")) {
+          hints.add("pendingOwner");
+        }
+
+        if (
+          condition.includes("hasrole") ||
+          condition.includes("_checkrole") ||
+          condition.includes("getroleadmin") ||
+          condition.includes("default_admin_role")
+        ) {
+          hints.add("onlyRole");
+        }
+      }
+    }
+
+    for (const value of Object.values(node)) {
+      collectBodyGuardHints(value, hints);
+    }
+
+    return hints;
+  }
+
+  function guardLabelFromBody(body) {
+    const hints = collectBodyGuardHints(body);
+    if (hints.has("governance")) {
+      return "governance";
+    }
+
+    if (hints.has("onlyRole")) {
+      return "onlyRole(body)";
+    }
+
+    if (hints.has("pendingOwner")) {
+      return "pendingOwner";
+    }
+
+    if (hints.has("onlyOwner")) {
+      return "onlyOwner(body)";
+    }
+
+    return null;
+  }
+
   return (contract.nodes ?? [])
     .filter((node) => node.nodeType === "FunctionDefinition" && node.kind === "function" && node.name)
     .map((node) => ({
@@ -215,7 +347,8 @@ function extractAstFunctions(sourceAst, contractName) {
       visibility: node.visibility,
       stateMutability: node.stateMutability,
       modifiers: (node.modifiers ?? []).map(modifierToLabel),
-      hasBody: Boolean(node.body)
+      hasBody: Boolean(node.body),
+      bodyGuard: guardLabelFromBody(node.body)
     }));
 }
 
@@ -288,7 +421,10 @@ function buildPrivilegedFunctionMap(contract) {
   }
 
   for (const item of astFunctions) {
-    const guard = item.modifiers.length > 0 ? item.modifiers.join(" + ") : "none";
+    const guard =
+      item.modifiers.length > 0
+        ? item.modifiers.join(" + ")
+        : item.bodyGuard ?? "none";
     if (item.name === "_authorizeUpgrade") {
       upgradeHook = {
         signature: item.signature,
@@ -311,7 +447,7 @@ function buildPrivilegedFunctionMap(contract) {
         name: item.name,
         kind: classifyFunctionKind(item.name, item.signature),
         guard,
-        guardSource: item.modifiers.length > 0 ? "modifiers" : "ast"
+        guardSource: item.modifiers.length > 0 ? "modifiers" : item.bodyGuard ? "body" : "ast"
       });
     }
   }
@@ -334,7 +470,7 @@ function buildPrivilegedFunctionMap(contract) {
       signature,
       name: abiItem.name,
       kind: classifyFunctionKind(abiItem.name, signature),
-      guard: inferKnownGuard(signature, upgradeHook),
+      guard: inferKnownGuard(signature, upgradeHook, contract),
       guardSource:
         abiItem.name === "upgradeTo" || abiItem.name === "upgradeToAndCall"
           ? upgradeHook
