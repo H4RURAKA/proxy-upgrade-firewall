@@ -75,7 +75,11 @@ export function compileStandardJson({ input, solcVersion, maxBuffer = 40 * 1024 
 
   if (direct.status === 0) {
     const raw = direct.stdout ?? "";
-    return parseSolcOutput(raw);
+    try {
+      return parseSolcOutput(raw);
+    } catch {
+      // Fall through to the remote-compiler path when the direct solcjs output is malformed.
+    }
   }
 
   const fallback = spawnSync("node", [REMOTE_SOLC_RUNNER], {

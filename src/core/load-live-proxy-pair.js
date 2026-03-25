@@ -83,7 +83,11 @@ function resolveCompilationTarget(metadata) {
   };
 }
 
-async function fetchVerifiedSourceBundle({ chainId, implementationAddress, fetchImpl = globalThis.fetch }) {
+export async function fetchVerifiedSourceBundle({
+  chainId,
+  implementationAddress,
+  fetchImpl = globalThis.fetch
+}) {
   const normalizedAddress = implementationAddress.toLowerCase();
   let lastError = null;
 
@@ -120,7 +124,7 @@ async function fetchVerifiedSourceBundle({ chainId, implementationAddress, fetch
   );
 }
 
-async function materializeVerifiedBuildInfo({
+export async function materializeVerifiedBuildInfo({
   chainId,
   implementationAddress,
   fetchImpl = globalThis.fetch
@@ -150,7 +154,11 @@ async function materializeVerifiedBuildInfo({
   return {
     buildInfoPath,
     contractSelector: bundle.target.selector,
+    sourceName: bundle.target.sourceName,
+    contractName: bundle.target.contractName,
     matchType: bundle.matchType,
+    compilerVersion: bundle.metadata.compiler?.version ?? null,
+    sourceCount: Object.keys(bundle.sources).length,
     cleanup: async () => {
       await fs.rm(tempDir, { recursive: true, force: true });
     }
