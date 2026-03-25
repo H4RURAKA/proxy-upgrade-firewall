@@ -75,6 +75,80 @@ function extractOpcodes(bytecode) {
   return null;
 }
 
+function findContractDefinition(sourceAst, contractName) {
+  const nodes = sourceAst?.nodes ?? [];
+  return nodes.find((node) => node.nodeType === "ContractDefinition" && node.name === contractName) ?? null;
+}
+
+function astNodeContainsFunctionCall(node, predicate) {
+  if (!node || typeof node !== "object") {
+    return false;
+  }
+
+  if (Array.isArray(node)) {
+    return node.some((item) => astNodeContainsFunctionCall(item, predicate));
+  }
+
+  if (node.nodeType === "FunctionCall" && predicate(node)) {
+    return true;
+  }
+
+  return Object.values(node).some((value) => astNodeContainsFunctionCall(value, predicate));
+}
+
+function isDisableInitializersCall(node) {
+  const expression = node?.expression;
+  if (!expression || typeof expression !== "object") {
+    return false;
+  }
+
+  return expression.name === "_disableInitializers" || expression.memberName === "_disableInitializers";
+}
+
+function isDelegatecall(node) {
+  const expression = node?.expression;
+  if (!expression || typeof expression !== "object") {
+    return false;
+  }
+
+  return expression.memberName === "delegatecall";
+}
+
+function isSelfdestruct(node) {
+  const expression = node?.expression;
+  if (!expression || typeof expression !== "object") {
+    return false;
+  }
+
+  return expression.name === "selfdestruct" || expression.memberName === "selfdestruct";
+}
+
+function detectContractFunctionCall(sourceAst, contractName, predicate) {
+  const contract = findContractDefinition(sourceAst, contractName);
+  if (!contract) {
+    return null;
+  }
+
+  return astNodeContainsFunctionCall(contract, predicate);
+}
+
+function detectDisableInitializersInConstructor(sourceAst, contractName) {
+  const contract = findContractDefinition(sourceAst, contractName);
+  if (!contract) {
+    return null;
+  }
+
+  const constructorNode = (contract.nodes ?? []).find(
+    (node) => node.nodeType === "FunctionDefinition" && node.kind === "constructor"
+  );
+
+  if (!constructorNode?.body) {
+    return false;
+  }
+
+  return astNodeContainsFunctionCall(constructorNode.body, isDisableInitializersCall);
+}
+
 function byteLength(hex) {
   if (!hex || hex === "0x") {
     return 0;
@@ -97,7 +171,9 @@ function normalizeStorageLayout(storageLayout) {
   }));
 }
 
-function deriveSecuritySignals(contractOutput) {
+function deriveSecuritySignals(contractOutput, sourceAst, contractName) {
+  const astDelegatecall = detectContractFunctionCall(sourceAst, contractName, isDelegatecall);
+  const astSelfdestruct = detectContractFunctionCall(sourceAst, contractName, isSelfdestruct);
   const opcodes =
     extractOpcodes(contractOutput.evm?.deployedBytecode) ??
     extractOpcodes(contractOutput.deployedBytecode) ??
@@ -113,9 +189,9 @@ function deriveSecuritySignals(contractOutput) {
   }
 
   return {
-    delegatecall: opcodes.includes("DELEGATECALL"),
-    selfdestruct: opcodes.includes("SELFDESTRUCT"),
-    disableInitializersInConstructor: null
+    delegatecall: astDelegatecall ?? opcodes.includes("DELEGATECALL"),
+    selfdestruct: astSelfdestruct ?? opcodes.includes("SELFDESTRUCT"),
+    disableInitializersInConstructor: detectDisableInitializersInConstructor(sourceAst, contractName)
   };
 }
 
@@ -178,7 +254,7 @@ function normalizeContract({
       .filter((item) => item.type === "function")
       .map((item) => functionSignatureFromAbiItem(item)),
     privilegedFunctions: [],
-    securitySignals: deriveSecuritySignals(contractOutput)
+    securitySignals: deriveSecuritySignals(contractOutput, sourceAst, contractName)
   };
 }
 

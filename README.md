@@ -34,8 +34,9 @@ This scaffold ships with:
 - analyzers for storage, authority, and implementation safety
 - compiler-backed artifact and build-info parsing for Hardhat and Foundry
 - AST-aware authority semantics for `_authorizeUpgrade`, `upgradeToAndCall`, and admin surface changes
+- AST-aware detection of constructor-time `_disableInitializers()` locking
 - an on-chain proxy inspection mode
-- a sample high-risk UUPS fixture
+- real-world compiler-backed corpora for safe, downgraded, and unsafe upgrades
 - Markdown and JSON report output
 - a smoke test and GitHub Actions workflow
 
@@ -60,6 +61,15 @@ node src/index.js check \
   --current-build-info fixtures/compiler-inputs/build-info/current.build-info.json \
   --proposed-build-info fixtures/compiler-inputs/build-info/proposed.build-info.json \
   --contract contracts/TreasuryVault.sol:TreasuryVault
+```
+
+Run one of the real-world corpora:
+
+```bash
+node src/index.js check \
+  --current-build-info fixtures/real-world/governance-downgrade/build/current.build-info.json \
+  --proposed-build-info fixtures/real-world/governance-downgrade/build/proposed.build-info.json \
+  --contract GovernedVault
 ```
 
 Write a report to disk:

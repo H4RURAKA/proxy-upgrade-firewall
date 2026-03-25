@@ -2,12 +2,12 @@
 
 Fixtures are small upgrade scenarios used to exercise the approval engine.
 
-Each corpus entry contains:
+Two fixture families are included:
 
-- `current.json`
-- `proposed.json`
+- `corpus/`: lightweight handwritten JSON fixtures
+- `real-world/`: compiler-backed Solidity corpora with generated build-info outputs
 
-The included `uups-admin-drift` case intentionally contains:
+The legacy `uups-admin-drift` case intentionally contains:
 
 - a storage slot shift
 - a weaker governance path
@@ -17,3 +17,8 @@ The included `uups-admin-drift` case intentionally contains:
 - unsafe implementation initialization
 - a new `delegatecall` signal
 
+The compiler-backed real-world corpora cover:
+
+- a safe storage append that should stay low risk
+- a governance downgrade that should escalate to manual review
+- a UUPS unsafe implementation that should be blocked
