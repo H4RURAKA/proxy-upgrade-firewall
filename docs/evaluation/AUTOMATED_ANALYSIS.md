@@ -94,7 +94,7 @@ Signals such as `ABI-001` and `COMPILER-*` are still useful, but usually need mo
 ### 1. USYC pair 8
 
 - proxy: `0x136471a34f6ef19fe571effc1ca711fdb8e49f2b`
-- manual review: [docs/case-studies/usyc-pair-8.md](case-studies/usyc-pair-8.md)
+- manual review: [usyc-pair-8.md](../case-studies/usyc-pair-8.md)
 - verdict: `block`
 - risk score: `100`
 - automated signals:
@@ -107,7 +107,7 @@ Signals such as `ABI-001` and `COMPILER-*` are still useful, but usually need mo
 ### 2. USYC pair 4
 
 - proxy: `0x136471a34f6ef19fe571effc1ca711fdb8e49f2b`
-- manual review: [docs/case-studies/usyc-pair-4.md](case-studies/usyc-pair-4.md)
+- manual review: [usyc-pair-4.md](../case-studies/usyc-pair-4.md)
 - verdict: `block`
 - risk score: `100`
 - automated signals:
@@ -119,7 +119,7 @@ Signals such as `ABI-001` and `COMPILER-*` are still useful, but usually need mo
 ### 3. WLFI pair 1
 
 - proxy: `0xda5e1988097297dcdc1f90d4dfe7909e847cbef6`
-- manual review: [docs/case-studies/wlfi-pair-1.md](case-studies/wlfi-pair-1.md)
+- manual review: [wlfi-pair-1.md](../case-studies/wlfi-pair-1.md)
 - verdict: `manual-review`
 - risk score: `51`
 - automated signals:
@@ -132,18 +132,18 @@ Signals such as `ABI-001` and `COMPILER-*` are still useful, but usually need mo
 
 Additional manual reviews from the expanded top300 run:
 
-- [docs/case-studies/wlfi-pair-2.md](case-studies/wlfi-pair-2.md)
-- [docs/case-studies/usyc-pair-1.md](case-studies/usyc-pair-1.md)
-- [docs/case-studies/usyc-pair-2.md](case-studies/usyc-pair-2.md)
-- [docs/case-studies/usyc-pair-3.md](case-studies/usyc-pair-3.md)
-- [docs/case-studies/aave-pair-1.md](case-studies/aave-pair-1.md)
-- [docs/case-studies/frxusd-pair-1.md](case-studies/frxusd-pair-1.md)
-- [docs/case-studies/usyc-pair-6.md](case-studies/usyc-pair-6.md)
-- [docs/case-studies/move-pair-1.md](case-studies/move-pair-1.md)
-- [docs/case-studies/msusd-pair-1.md](case-studies/msusd-pair-1.md)
-- [docs/case-studies/msusd-pair-2.md](case-studies/msusd-pair-2.md)
-- [docs/case-studies/sent-pair-1.md](case-studies/sent-pair-1.md)
-- [docs/case-studies/usdx-pair-1.md](case-studies/usdx-pair-1.md)
+- [wlfi-pair-2.md](../case-studies/wlfi-pair-2.md)
+- [usyc-pair-1.md](../case-studies/usyc-pair-1.md)
+- [usyc-pair-2.md](../case-studies/usyc-pair-2.md)
+- [usyc-pair-3.md](../case-studies/usyc-pair-3.md)
+- [aave-pair-1.md](../case-studies/aave-pair-1.md)
+- [frxusd-pair-1.md](../case-studies/frxusd-pair-1.md)
+- [usyc-pair-6.md](../case-studies/usyc-pair-6.md)
+- [move-pair-1.md](../case-studies/move-pair-1.md)
+- [msusd-pair-1.md](../case-studies/msusd-pair-1.md)
+- [msusd-pair-2.md](../case-studies/msusd-pair-2.md)
+- [sent-pair-1.md](../case-studies/sent-pair-1.md)
+- [usdx-pair-1.md](../case-studies/usdx-pair-1.md)
 
 Manual review pattern:
 
@@ -155,7 +155,7 @@ The most promising cases for deeper exploit validation remain the ones that surv
 
 For the current exploit-plausibility split, see:
 
-- [docs/EXPLOIT_TRIAGE.md](EXPLOIT_TRIAGE.md)
+- [EXPLOIT_TRIAGE.md](EXPLOIT_TRIAGE.md)
 
 ## Notes
 

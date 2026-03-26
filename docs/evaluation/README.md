@@ -1,22 +1,22 @@
-# Automated Analysis Evidence
+# Evaluation
 
-This directory contains public evaluation snapshots derived from local runs. The raw `reports/` directory stays git-ignored; the files here are the checked-in summaries and shortlists that support the repository claims.
+This directory contains public evaluation material derived from local runs. The raw `reports/` directory stays git-ignored; the files here are the checked-in summaries and shortlists that support the repository claims.
 
 ## Included Snapshots
 
 ### Top 100
 
 - snapshot date: `2026-03-25`
-- live comparable summary: [top100/live-comparable-summary.json](top100/live-comparable-summary.json)
-- historical upgrade summary: [top100/historical-summary.json](top100/historical-summary.json)
-- suspicious shortlist: [top100/suspicious-pairs.csv](top100/suspicious-pairs.csv)
+- live comparable summary: [snapshots/top100/live-comparable-summary.json](snapshots/top100/live-comparable-summary.json)
+- historical upgrade summary: [snapshots/top100/historical-summary.json](snapshots/top100/historical-summary.json)
+- suspicious shortlist: [snapshots/top100/suspicious-pairs.csv](snapshots/top100/suspicious-pairs.csv)
 
 ### Top 300
 
 - snapshot date: `2026-03-26`
-- live comparable summary: [top300/live-comparable-summary.json](top300/live-comparable-summary.json)
-- historical upgrade summary: [top300/historical-summary.json](top300/historical-summary.json)
-- suspicious shortlist: [top300/suspicious-pairs.csv](top300/suspicious-pairs.csv)
+- live comparable summary: [snapshots/top300/live-comparable-summary.json](snapshots/top300/live-comparable-summary.json)
+- historical upgrade summary: [snapshots/top300/historical-summary.json](snapshots/top300/historical-summary.json)
+- suspicious shortlist: [snapshots/top300/suspicious-pairs.csv](snapshots/top300/suspicious-pairs.csv)
 
 ## Results
 
@@ -34,9 +34,10 @@ This directory contains public evaluation snapshots derived from local runs. The
 
 ## Manual Review
 
-- exploit-plausibility split: [../../docs/EXPLOIT_TRIAGE.md](../../docs/EXPLOIT_TRIAGE.md)
-- case studies: [../../docs/case-studies/](../../docs/case-studies/)
-- current standout PoC candidate from the reviewed set: [../../docs/case-studies/plld-pair-2.md](../../docs/case-studies/plld-pair-2.md)
+- automated analysis summary: [AUTOMATED_ANALYSIS.md](AUTOMATED_ANALYSIS.md)
+- exploit-plausibility split: [EXPLOIT_TRIAGE.md](EXPLOIT_TRIAGE.md)
+- case studies: [../case-studies/README.md](../case-studies/README.md)
+- current standout PoC candidate from the reviewed set: [../case-studies/plld-pair-2.md](../case-studies/plld-pair-2.md)
 
 ## Notes
 

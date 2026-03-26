@@ -84,7 +84,7 @@ This script:
 
 ### Public Evaluation Artifacts
 
-Checked-in evaluation snapshots live under [evidence/automated-analysis/README.md](evidence/automated-analysis/README.md).
+Checked-in evaluation snapshots live under [docs/evaluation/README.md](docs/evaluation/README.md).
 
 - `2026-03-25` top100 snapshot:
   - `16` ready live proxies
@@ -100,10 +100,10 @@ Checked-in evaluation snapshots live under [evidence/automated-analysis/README.m
 
 Repository docs:
 
-- [evidence/automated-analysis/README.md](evidence/automated-analysis/README.md)
-- [docs/AUTOMATED_ANALYSIS.md](docs/AUTOMATED_ANALYSIS.md)
-- [docs/EXPLOIT_TRIAGE.md](docs/EXPLOIT_TRIAGE.md)
-- [docs/case-studies/](docs/case-studies/)
+- [docs/README.md](docs/README.md)
+- [docs/evaluation/README.md](docs/evaluation/README.md)
+- [docs/case-studies/README.md](docs/case-studies/README.md)
+- [docs/project/ARCHITECTURE.md](docs/project/ARCHITECTURE.md)
 
 ## Repository Layout
 
@@ -111,8 +111,14 @@ Repository docs:
 .
 ├── .github/workflows/ci.yml
 ├── docs/
+│   ├── case-studies/
+│   ├── evaluation/
+│   │   └── snapshots/
+│   ├── project/
+│   └── README.md
 ├── experiments/
 ├── fixtures/
+├── reports/            # gitignored local outputs
 ├── scripts/
 ├── src/
 │   ├── analyzers/
@@ -127,5 +133,5 @@ Repository docs:
 ## Notes
 
 - `reports/` is ignored by git. Evaluation scripts write local outputs there.
-- `evidence/automated-analysis/` contains checked-in snapshots that can be linked publicly from GitHub.
+- `docs/evaluation/snapshots/` contains checked-in evaluation summaries that can be linked publicly from GitHub.
 - The historical exploration output is a review shortlist, not a confirmed vulnerability list.

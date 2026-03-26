@@ -8,13 +8,14 @@
 - live current vs local proposed comparison
 - dangerous upgrade replay from verified live sources
 - historical upgrade pair exploration
+- CI smoke checks and pull request reporting
 - storage, authority, implementation, ABI, and compiler analyzers
 
 ## Next
 
 - risk-triggered simulation or differential fuzzing
 - policy files per protocol
-- GitHub Action and pull request reporting
+- confidence scoring and richer finding classification
 
 ## Milestones
 
