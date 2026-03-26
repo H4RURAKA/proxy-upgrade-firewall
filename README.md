@@ -105,9 +105,15 @@ Repository docs:
 - [docs/case-studies/rlusd-pair-1.md](docs/case-studies/rlusd-pair-1.md)
 - [docs/case-studies/usdtb-pair-1.md](docs/case-studies/usdtb-pair-1.md)
 - [docs/case-studies/aave-pair-3.md](docs/case-studies/aave-pair-3.md)
+- [docs/case-studies/usyc-pair-2.md](docs/case-studies/usyc-pair-2.md)
+- [docs/case-studies/usyc-pair-3.md](docs/case-studies/usyc-pair-3.md)
 - [docs/case-studies/usyc-pair-8.md](docs/case-studies/usyc-pair-8.md)
 - [docs/case-studies/usyc-pair-4.md](docs/case-studies/usyc-pair-4.md)
+- [docs/case-studies/usyc-pair-6.md](docs/case-studies/usyc-pair-6.md)
 - [docs/case-studies/wlfi-pair-1.md](docs/case-studies/wlfi-pair-1.md)
+- [docs/case-studies/move-pair-1.md](docs/case-studies/move-pair-1.md)
+- [docs/case-studies/msusd-pair-1.md](docs/case-studies/msusd-pair-1.md)
+- [docs/case-studies/sent-pair-1.md](docs/case-studies/sent-pair-1.md)
 
 ## Repository Layout
 

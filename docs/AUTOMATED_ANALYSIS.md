@@ -154,6 +154,25 @@ Manual review note:
 
 - the first pass supports that baseline: this looks like a structured V2 feature rollout with owner, guardian, and vesting flows, not a clear exploit candidate
 
+## Additional Top300 Case Studies
+
+Additional manual reviews from the expanded top300 run:
+
+- [docs/case-studies/usyc-pair-2.md](case-studies/usyc-pair-2.md)
+- [docs/case-studies/usyc-pair-3.md](case-studies/usyc-pair-3.md)
+- [docs/case-studies/usyc-pair-6.md](case-studies/usyc-pair-6.md)
+- [docs/case-studies/move-pair-1.md](case-studies/move-pair-1.md)
+- [docs/case-studies/msusd-pair-1.md](case-studies/msusd-pair-1.md)
+- [docs/case-studies/sent-pair-1.md](case-studies/sent-pair-1.md)
+
+Current pattern after manual review:
+
+- some shortlist items are genuine source-level problems or strong review concerns
+- some are expected bootstrap or feature-rollout upgrades that the analyzer currently ranks too high
+- some are business-logic migrations where the right output is `design-risk` or `manual-review`, not `confirmed vulnerability`
+
+The most promising cases for deeper exploit validation remain the ones that survive source review with a concrete security claim, such as PLLD pair 2. The newer top300 additions reviewed so far mostly strengthen the analyzer's case-study corpus rather than producing immediate PoC candidates.
+
 ## Notes
 
 - The historical shortlist is a triage output, not a vulnerability disclosure list.

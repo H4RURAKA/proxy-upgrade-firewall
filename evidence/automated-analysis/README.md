@@ -39,13 +39,19 @@ This directory contains public evaluation snapshots derived from local runs. The
   - [../../docs/case-studies/rlusd-pair-1.md](../../docs/case-studies/rlusd-pair-1.md)
   - [../../docs/case-studies/usdtb-pair-1.md](../../docs/case-studies/usdtb-pair-1.md)
   - [../../docs/case-studies/aave-pair-3.md](../../docs/case-studies/aave-pair-3.md)
+  - [../../docs/case-studies/usyc-pair-2.md](../../docs/case-studies/usyc-pair-2.md)
+  - [../../docs/case-studies/usyc-pair-3.md](../../docs/case-studies/usyc-pair-3.md)
   - [../../docs/case-studies/usyc-pair-8.md](../../docs/case-studies/usyc-pair-8.md)
   - [../../docs/case-studies/usyc-pair-4.md](../../docs/case-studies/usyc-pair-4.md)
+  - [../../docs/case-studies/usyc-pair-6.md](../../docs/case-studies/usyc-pair-6.md)
   - [../../docs/case-studies/wlfi-pair-1.md](../../docs/case-studies/wlfi-pair-1.md)
-- Recommended next manual reviews from the top300 shortlist:
-  - `move` pair `1`
-  - `msusd` pair `1`
-  - `sent` pair `1`
+  - [../../docs/case-studies/move-pair-1.md](../../docs/case-studies/move-pair-1.md)
+  - [../../docs/case-studies/msusd-pair-1.md](../../docs/case-studies/msusd-pair-1.md)
+  - [../../docs/case-studies/sent-pair-1.md](../../docs/case-studies/sent-pair-1.md)
+- Shortlist interpretation after manual review:
+  - PLLD pair 2 remains the clearest candidate for deeper exploit validation
+  - the new `move`, `msusd`, and `sent` case studies mostly look like rollout-sensitive upgrades, not immediate confirmed vulnerabilities
+  - the additional USYC cases mostly reinforce the need to separate semantic storage and business-logic migrations from exploit claims
 
 ## Notes
 
