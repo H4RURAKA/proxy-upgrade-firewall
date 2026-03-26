@@ -35,13 +35,17 @@ This directory contains public evaluation snapshots derived from local runs. The
 ## Follow-up
 
 - Existing manual case studies:
+  - [../../docs/case-studies/plld-pair-2.md](../../docs/case-studies/plld-pair-2.md)
+  - [../../docs/case-studies/rlusd-pair-1.md](../../docs/case-studies/rlusd-pair-1.md)
+  - [../../docs/case-studies/usdtb-pair-1.md](../../docs/case-studies/usdtb-pair-1.md)
+  - [../../docs/case-studies/aave-pair-3.md](../../docs/case-studies/aave-pair-3.md)
   - [../../docs/case-studies/usyc-pair-8.md](../../docs/case-studies/usyc-pair-8.md)
   - [../../docs/case-studies/usyc-pair-4.md](../../docs/case-studies/usyc-pair-4.md)
   - [../../docs/case-studies/wlfi-pair-1.md](../../docs/case-studies/wlfi-pair-1.md)
 - Recommended next manual reviews from the top300 shortlist:
-  - `plld` pair `2`
-  - `rlusd` pair `1`
-  - `usdtb` pair `1`
+  - `move` pair `1`
+  - `msusd` pair `1`
+  - `sent` pair `1`
 
 ## Notes
 

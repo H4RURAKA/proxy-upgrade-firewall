@@ -101,6 +101,10 @@ Checked-in evaluation snapshots live under [evidence/automated-analysis/README.m
 Repository docs:
 
 - [evidence/automated-analysis/README.md](evidence/automated-analysis/README.md)
+- [docs/case-studies/plld-pair-2.md](docs/case-studies/plld-pair-2.md)
+- [docs/case-studies/rlusd-pair-1.md](docs/case-studies/rlusd-pair-1.md)
+- [docs/case-studies/usdtb-pair-1.md](docs/case-studies/usdtb-pair-1.md)
+- [docs/case-studies/aave-pair-3.md](docs/case-studies/aave-pair-3.md)
 - [docs/case-studies/usyc-pair-8.md](docs/case-studies/usyc-pair-8.md)
 - [docs/case-studies/usyc-pair-4.md](docs/case-studies/usyc-pair-4.md)
 - [docs/case-studies/wlfi-pair-1.md](docs/case-studies/wlfi-pair-1.md)
