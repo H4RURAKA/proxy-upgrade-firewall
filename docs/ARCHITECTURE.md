@@ -2,36 +2,16 @@
 
 ## Inputs
 
-The current scaffold reads a fixture directory containing:
+The project supports four input paths:
 
-- `current.json`
-- `proposed.json`
+- fixture directories with `current.json` and `proposed.json`
+- Hardhat build-info files or artifacts
+- Foundry artifacts with embedded `storageLayout` and metadata
+- live proxies resolved over JSON-RPC and Sourcify
 
-It also supports a live inspection path:
+## Pipeline
 
-- `--proxy <address>`
-- `--rpc-url <url>`
-
-And a compiler-backed comparison path:
-
-- `--current-build-info <file-or-dir>`
-- `--proposed-build-info <file-or-dir>`
-- `--current-artifact <file>`
-- `--proposed-artifact <file>`
-- `--contract <source:contract>`
-
-Each file describes one implementation state:
-
-- proxy metadata
-- governance path
-- implementation metadata
-- storage layout
-- privileged functions
-- implementation safety signals
-
-## Analysis pipeline
-
-The CLI routes `check` requests into three analyzers:
+`check` loads a current implementation and a proposed implementation, normalizes both into a shared contract model, and runs these analyzers:
 
 1. `storage-layout`
 2. `authority-diff`
@@ -39,21 +19,7 @@ The CLI routes `check` requests into three analyzers:
 4. `abi-surface`
 5. `compiler-metadata`
 
-The compiler-backed loader supports:
-
-- Hardhat build-info files or directories
-- Hardhat artifacts with sibling `.dbg.json` files
-- Foundry artifacts that include `storageLayout`, `metadata`, and bytecode output
-- AST-backed extraction of `_authorizeUpgrade` and modifier-derived guards when source AST is available
-
-The `inspect` command follows a different path:
-
-1. read EIP-1967 implementation, admin, and beacon slots
-2. classify the proxy control surface
-3. recursively inspect the admin or owner address
-4. render a reviewer-friendly on-chain context report
-
-Each analyzer emits findings in a shared shape:
+Each analyzer emits findings with:
 
 - `id`
 - `category`
@@ -66,15 +32,26 @@ Each analyzer emits findings in a shared shape:
 
 The findings then flow into:
 
-- a summary and risk score builder
-- a next-step recommender
-- Markdown and JSON renderers
+- a summary and risk score
+- a verdict (`allow-with-review`, `manual-review`, or `block`)
+- Markdown or JSON output
 
-## Intended future architecture
+## Live Inspection
 
-The differentiator is the layer after this scaffold:
+`inspect` follows a separate path:
 
-- on-chain loaders for proxy admin, implementation, and governance owner
-- semantic call graph extraction for privileged entrypoints
-- risk-triggered dynamic checks using simulation or differential fuzzing
-- GitHub-native PR annotations and SARIF output
+1. read EIP-1967 implementation, admin, and beacon slots
+2. classify the proxy type
+3. inspect the admin or owner control path
+4. render the on-chain context as Markdown or JSON
+
+## Historical Exploration
+
+`scripts/explore-historical-upgrades.mjs`:
+
+1. finds deployment blocks for ready live proxies
+2. scans `Upgraded(address)` events
+3. builds historical implementation pairs
+4. resolves verified source bundles from Sourcify
+5. runs the analyzer on each pair
+6. writes pair summaries and review candidates to `reports/`

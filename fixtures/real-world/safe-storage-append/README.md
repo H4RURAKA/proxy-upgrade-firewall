@@ -1,14 +1,14 @@
 # Safe Storage Append
 
-This case models a low-risk upgrade that only appends an internal storage variable at the end of the slot map.
+This case models a low-risk upgrade that appends storage at the end of the existing layout.
 
-Expected outcome:
+## Expected Result
 
 - verdict: `allow-with-review`
 - key finding: `STORAGE-002`
 - no authority downgrade
 
-Build commands:
+## Generate Build Info
 
 ```bash
 node scripts/generate-build-info.mjs \

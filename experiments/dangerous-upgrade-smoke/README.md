@@ -1,14 +1,14 @@
 # Dangerous Upgrade Smoke
 
-This scenario is a small real compiler-backed upgrade test for Proxy Upgrade Firewall.
+This experiment is a small compiler-backed upgrade pair with an intentionally dangerous proposed implementation.
 
-## Current contract
+## Current
 
 - role-based guards on `pause`, `setValue`, and `_authorizeUpgrade`
 - explicit `grantRole` and `revokeRole`
 - stable storage order
 
-## Proposed dangerous change
+## Proposed
 
 - inserts `emergencyAdmin` before existing storage
 - weakens `_authorizeUpgrade` from role-based to `onlyOwner`
@@ -17,7 +17,7 @@ This scenario is a small real compiler-backed upgrade test for Proxy Upgrade Fir
 - adds unguarded `emergencySweep`
 - adds `delegatecall` through `forward`
 
-## Build commands
+## Generate Build Info
 
 ```bash
 node experiments/dangerous-upgrade-smoke/build/generate-build-info.mjs \
@@ -29,7 +29,7 @@ node experiments/dangerous-upgrade-smoke/build/generate-build-info.mjs \
   experiments/dangerous-upgrade-smoke/build/proposed.build-info.json
 ```
 
-## Review command
+## Run
 
 ```bash
 node src/index.js check \
@@ -37,4 +37,3 @@ node src/index.js check \
   --proposed-build-info experiments/dangerous-upgrade-smoke/build/proposed.build-info.json \
   --contract SimpleVault
 ```
-

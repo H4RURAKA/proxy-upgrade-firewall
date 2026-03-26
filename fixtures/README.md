@@ -1,24 +1,16 @@
 # Fixtures
 
-Fixtures are small upgrade scenarios used to exercise the approval engine.
+Fixtures are small upgrade scenarios used to exercise the analyzer.
 
-Two fixture families are included:
+Included groups:
 
 - `corpus/`: lightweight handwritten JSON fixtures
-- `real-world/`: compiler-backed Solidity corpora with generated build-info outputs
+- `real-world/`: compiler-backed Solidity scenarios with generated build-info outputs
 
-The legacy `uups-admin-drift` case intentionally contains:
+The legacy `uups-admin-drift` fixture includes:
 
 - a storage slot shift
-- a weaker governance path
-- a delay removal
-- a weaker upgrade authorizer
+- weaker governance and upgrade authorization
 - a new unguarded privileged function
 - unsafe implementation initialization
 - a new `delegatecall` signal
-
-The compiler-backed real-world corpora cover:
-
-- a safe storage append that should stay low risk
-- a governance downgrade that should escalate to manual review
-- a UUPS unsafe implementation that should be blocked

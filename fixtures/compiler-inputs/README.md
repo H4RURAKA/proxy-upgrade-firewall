@@ -1,11 +1,10 @@
-# Compiler-backed Fixtures
+# Compiler-Backed Fixtures
 
-These fixtures simulate real compiler outputs so the `check` command can run in compiler-backed mode.
+These fixtures let `check` run against compiler outputs instead of handwritten JSON.
 
 Included inputs:
 
 - `build-info/current.build-info.json`
 - `build-info/proposed.build-info.json`
-- Hardhat-style artifacts with sibling `.dbg.json` files
-- Foundry-style artifacts with embedded `storageLayout`
-
+- Hardhat artifacts with sibling `.dbg.json` files
+- Foundry artifacts with embedded `storageLayout`

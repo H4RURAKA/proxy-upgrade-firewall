@@ -1,46 +1,26 @@
 # Proxy Upgrade Firewall
 
-Proxy Upgrade Firewall is a GitHub-native approval engine for upgradeable smart contracts.
+Proxy Upgrade Firewall compares upgradeable contract implementations and flags risky changes before deployment or approval.
 
-The point is not to build yet another storage layout checker. The point is to answer the question reviewers actually care about:
+It supports:
 
-- Did the storage layout stay safe?
-- Did the upgrade authority get weaker?
-- Did the governance path lose delay or multisig protection?
-- Did the implementation introduce dangerous upgrade patterns?
-- Should this change be blocked, manually reviewed, or escalated to dynamic testing?
+- fixture-based comparisons
+- Hardhat and Foundry compiler outputs
+- live proxy inspection over JSON-RPC
+- live current implementation vs local proposed implementation
+- historical upgrade pair exploration from on-chain `Upgraded(address)` events
 
-## Why this repo is interesting
+## Checks
 
-Existing tools already cover slices of this problem:
+- storage layout changes
+- authority and upgrade-path changes
+- implementation safety signals such as `delegatecall`, `selfdestruct`, and initializer locking
+- ABI surface changes
+- compiler and build setting changes
 
-- OpenZeppelin Upgrades validates upgrade safety and storage compatibility.
-- Slither covers upgradeability and static analysis checks.
-- Diffusc covers differential fuzzing for upgrade reviews.
-- Seatbelt-style systems cover governance proposal simulation and reporting.
+## Quick Start
 
-This project aims at the gap between them:
-
-- semantic authority diffing
-- governance-path downgrade detection
-- risk-triggered follow-up guidance
-- reviewer-friendly Markdown and JSON reports for PRs
-
-## Current scope
-
-This scaffold ships with:
-
-- a zero-dependency Node CLI
-- analyzers for storage, authority, and implementation safety
-- compiler-backed artifact and build-info parsing for Hardhat and Foundry
-- AST-aware authority semantics for `_authorizeUpgrade`, `upgradeToAndCall`, and admin surface changes
-- AST-aware detection of constructor-time `_disableInitializers()` locking
-- an on-chain proxy inspection mode
-- real-world compiler-backed corpora for safe, downgraded, and unsafe upgrades
-- Markdown and JSON report output
-- a smoke test and GitHub Actions workflow
-
-## Quick start
+Run the sample fixture:
 
 ```bash
 node src/index.js check --fixture fixtures/corpus/uups-admin-drift --format markdown
@@ -54,22 +34,13 @@ node src/index.js inspect \
   --rpc-url https://your-rpc.example
 ```
 
-Run a compiler-backed comparison from build-info:
+Compare compiler-backed inputs:
 
 ```bash
 node src/index.js check \
   --current-build-info fixtures/compiler-inputs/build-info/current.build-info.json \
   --proposed-build-info fixtures/compiler-inputs/build-info/proposed.build-info.json \
   --contract contracts/TreasuryVault.sol:TreasuryVault
-```
-
-Run one of the real-world corpora:
-
-```bash
-node src/index.js check \
-  --current-build-info fixtures/real-world/governance-downgrade/build/current.build-info.json \
-  --proposed-build-info fixtures/real-world/governance-downgrade/build/proposed.build-info.json \
-  --contract GovernedVault
 ```
 
 Compare a live proxy against a local proposed implementation:
@@ -82,40 +53,44 @@ node src/index.js check \
   --contract GovernedVault
 ```
 
-Replay live proxies against derived dangerous proposals:
+## Evaluation
+
+Run the regression tests:
+
+```bash
+node --test
+```
+
+Replay intentionally dangerous upgrades against verified live implementations:
 
 ```bash
 node scripts/replay-live-derived-dangerous-upgrades.mjs --limit 5
 ```
 
-Explore actual historical upgrade pairs across ready live proxies:
+This script derives a dangerous proposed implementation from each verified live source bundle and checks that the tool blocks it.
+
+Explore actual historical upgrade pairs:
 
 ```bash
 node scripts/explore-historical-upgrades.mjs
 ```
 
-Write a report to disk:
+This script:
 
-```bash
-node src/index.js check \
-  --fixture fixtures/corpus/uups-admin-drift \
-  --format markdown \
-  --output reports/uups-admin-drift.md
-```
+- scans live proxies with upgrade history
+- resolves verified implementation pairs
+- runs the analyzer on real historical upgrades
+- writes CSV and JSON outputs under `reports/`
 
-Use strict mode to fail CI on high-severity findings:
-
-```bash
-node src/index.js check --fixture fixtures/corpus/uups-admin-drift --strict
-```
-
-## Folder structure
+## Repository Layout
 
 ```text
 .
 ├── .github/workflows/ci.yml
 ├── docs/
+├── experiments/
 ├── fixtures/
+├── scripts/
 ├── src/
 │   ├── analyzers/
 │   ├── cli/
@@ -126,13 +101,7 @@ node src/index.js check --fixture fixtures/corpus/uups-admin-drift --strict
 └── test/
 ```
 
-## What makes this different later
+## Notes
 
-The next milestone is where the real differentiation begins:
-
-1. Diff authority semantics, not just source text.
-2. Trigger fork simulation or Diffusc only when the risk warrants it.
-3. Publish reviewer-ready artifacts directly into GitHub PRs.
-4. Merge live on-chain context with local build artifacts into one approval flow.
-
-Those are the parts that make this feel like an auditor's approval workflow rather than a one-off script.
+- `reports/` is ignored by git. Evaluation scripts write local outputs there.
+- The historical exploration output is a review shortlist, not a confirmed vulnerability list.

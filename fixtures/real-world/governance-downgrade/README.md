@@ -1,14 +1,14 @@
 # Governance Downgrade
 
-This case keeps storage safe but weakens the control plane from role-based upgrade authorization to `onlyOwner`.
+This case keeps storage safe but weakens upgrade authorization from role-based control to `onlyOwner`.
 
-Expected outcome:
+## Expected Result
 
 - verdict: `manual-review`
 - key findings: `AUTH-003`, `AUTH-005-upgradetoandcall-address-bytes`, `AUTH-007`
 - no storage corruption finding
 
-Build commands:
+## Generate Build Info
 
 ```bash
 node scripts/generate-build-info.mjs \

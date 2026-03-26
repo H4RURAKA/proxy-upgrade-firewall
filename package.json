@@ -1,7 +1,7 @@
 {
   "name": "proxy-upgrade-firewall",
   "version": "0.1.0",
-  "description": "GitHub-native approval engine for upgradeable smart contract changes.",
+  "description": "Approval workflow for upgradeable smart contract changes.",
   "type": "module",
   "bin": {
     "upgrade-firewall": "./src/index.js"
