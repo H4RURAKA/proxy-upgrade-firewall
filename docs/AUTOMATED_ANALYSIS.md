@@ -158,12 +158,18 @@ Manual review note:
 
 Additional manual reviews from the expanded top300 run:
 
+- [docs/case-studies/wlfi-pair-2.md](case-studies/wlfi-pair-2.md)
+- [docs/case-studies/usyc-pair-1.md](case-studies/usyc-pair-1.md)
 - [docs/case-studies/usyc-pair-2.md](case-studies/usyc-pair-2.md)
 - [docs/case-studies/usyc-pair-3.md](case-studies/usyc-pair-3.md)
+- [docs/case-studies/aave-pair-1.md](case-studies/aave-pair-1.md)
+- [docs/case-studies/frxusd-pair-1.md](case-studies/frxusd-pair-1.md)
 - [docs/case-studies/usyc-pair-6.md](case-studies/usyc-pair-6.md)
 - [docs/case-studies/move-pair-1.md](case-studies/move-pair-1.md)
 - [docs/case-studies/msusd-pair-1.md](case-studies/msusd-pair-1.md)
+- [docs/case-studies/msusd-pair-2.md](case-studies/msusd-pair-2.md)
 - [docs/case-studies/sent-pair-1.md](case-studies/sent-pair-1.md)
+- [docs/case-studies/usdx-pair-1.md](case-studies/usdx-pair-1.md)
 
 Current pattern after manual review:
 
@@ -172,6 +178,10 @@ Current pattern after manual review:
 - some are business-logic migrations where the right output is `design-risk` or `manual-review`, not `confirmed vulnerability`
 
 The most promising cases for deeper exploit validation remain the ones that survive source review with a concrete security claim, such as PLLD pair 2. The newer top300 additions reviewed so far mostly strengthen the analyzer's case-study corpus rather than producing immediate PoC candidates.
+
+For the current exploit-plausibility split, see:
+
+- [docs/EXPLOIT_TRIAGE.md](EXPLOIT_TRIAGE.md)
 
 ## Notes
 
