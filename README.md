@@ -95,6 +95,7 @@ Repository docs:
 - [docs/AUTOMATED_ANALYSIS.md](docs/AUTOMATED_ANALYSIS.md)
 - [docs/case-studies/usyc-pair-8.md](docs/case-studies/usyc-pair-8.md)
 - [docs/case-studies/usyc-pair-4.md](docs/case-studies/usyc-pair-4.md)
+- [docs/case-studies/wlfi-pair-1.md](docs/case-studies/wlfi-pair-1.md)
 
 ## Repository Layout
 

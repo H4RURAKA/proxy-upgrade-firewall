@@ -137,7 +137,8 @@ Manual review note:
 ### 3. WLFI pair 1
 
 - proxy: `0xda5e1988097297dcdc1f90d4dfe7909e847cbef6`
-- report: `reports/historical-upgrade-details/01-wlfi-20857295-to-23207432/report.json`
+- manual review: [docs/case-studies/wlfi-pair-1.md](case-studies/wlfi-pair-1.md)
+- local report: `reports/historical-upgrade-details/01-wlfi-20857295-to-23207432/report.json`
 - verdict: `manual-review`
 - risk score: `51`
 
@@ -148,6 +149,10 @@ Why it stands out:
 - useful contrast against the two stronger USYC cases
 
 This is a good manual-review baseline because it may turn out to be a legitimate product upgrade rather than a security issue.
+
+Manual review note:
+
+- the first pass supports that baseline: this looks like a structured V2 feature rollout with owner, guardian, and vesting flows, not a clear exploit candidate
 
 ## Notes
 
