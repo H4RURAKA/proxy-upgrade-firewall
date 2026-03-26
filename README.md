@@ -97,6 +97,7 @@ Checked-in evaluation snapshots live under [docs/evaluation/README.md](docs/eval
 - The suspicious-pair rate stayed in the same range when the sample expanded from `100` to `300`, which is a useful sign that the analyzer is not obviously overfit to the smaller sample.
 - The bigger limitation is still coverage, not ranking: most contracts in the top300 sample could not be reconstructed into the full workflow because they did not expose a recoverable live implementation path or lacked a verified implementation bundle.
 - These artifacts are triage evidence, not confirmed vulnerability reports.
+- Manual-review highlight: [PLLD pair 2](/Users/h4ru/Downloads/codes/extra/docs/case-studies/plld-pair-2.md) surfaced a real `isConfirmOwner(...)` logic bug in multisig confirmation, currently assessed as a logic/authorization defect rather than a confirmed critical outsider exploit.
 
 Repository docs:
 
