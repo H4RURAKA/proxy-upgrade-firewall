@@ -82,9 +82,18 @@ This script:
 - runs the analyzer on real historical upgrades
 - writes CSV and JSON outputs under `reports/`
 
-Automated analysis summary and shortlist:
+### Automated Analysis Snapshot
+
+- sampled `100` Ethereum token contracts on `2026-03-25`
+- found `16` live proxies that could be normalized into the `current vs proposed` comparison workflow
+- reconstructed `27` real historical implementation pairs from `Upgraded(address)` events
+- reduced the shortlist to `11` manual-review candidates after false-positive cleanup
+- this is a triage pipeline, not a confirmed vulnerability list
+
+Repository docs:
 
 - [docs/AUTOMATED_ANALYSIS.md](docs/AUTOMATED_ANALYSIS.md)
+- [docs/case-studies/usyc-pair-8.md](docs/case-studies/usyc-pair-8.md)
 
 ## Repository Layout
 

@@ -96,7 +96,8 @@ The next manual review pass should focus on these three cases.
 ### 1. USYC pair 8
 
 - proxy: `0x136471a34f6ef19fe571effc1ca711fdb8e49f2b`
-- report: `reports/historical-upgrade-details/08-usyc-22976690-to-23977326/report.json`
+- manual review: [docs/case-studies/usyc-pair-8.md](case-studies/usyc-pair-8.md)
+- local report: `reports/historical-upgrade-details/08-usyc-22976690-to-23977326/report.json`
 - verdict: `block`
 - risk score: `100`
 
@@ -108,6 +109,10 @@ Why it stands out:
 - `AUTH-008` and `AUTH-009` on control-plane changes
 
 This is the highest-priority authority case in the dataset.
+
+Manual review note:
+
+- the first pass suggests this pair is better treated as a custom-access false-positive case study than as a confirmed upgrade-authority regression
 
 ### 2. USYC pair 4
 
