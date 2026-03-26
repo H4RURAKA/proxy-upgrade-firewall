@@ -58,6 +58,250 @@ function sanitizeIdSegment(value) {
   return String(value).replace(/[^a-zA-Z0-9]+/g, "-").replace(/^-+|-+$/g, "").toLowerCase();
 }
 
+function unique(items = []) {
+  return [...new Set(items.filter(Boolean))];
+}
+
+function createGuardInfo(label = "unknown", overrides = {}) {
+  return {
+    label: label ?? "unknown",
+    model: "unknown",
+    confidence: "low",
+    usesTxOrigin: false,
+    viaAuthority: false,
+    customHelpers: [],
+    ...overrides
+  };
+}
+
+function extractCustomGuardHelpers(label) {
+  const tokens = String(label ?? "").match(/[A-Za-z_][A-Za-z0-9_]*/g) ?? [];
+  return unique(
+    tokens.filter((token) => {
+      const text = lower(token);
+      if (
+        [
+          "onlyowner",
+          "onlyrole",
+          "onlyproxyadmin",
+          "pendingowner",
+          "onlyguardian",
+          "_checkowner",
+          "_checkrole"
+        ].includes(text)
+      ) {
+        return false;
+      }
+
+      return (
+        text.startsWith("_assert") ||
+        text.startsWith("_check") ||
+        (text.startsWith("only") && !text.startsWith("onlyowner") && !text.startsWith("onlyrole")) ||
+        text.includes("fundadmin") ||
+        text.includes("permission")
+      );
+    })
+  );
+}
+
+function buildGuardInfoFromText(label) {
+  const raw = String(label ?? "unknown");
+  const text = lower(raw);
+
+  if (!text || text === "unknown") {
+    return createGuardInfo(raw || "unknown");
+  }
+
+  if (text === "none") {
+    return createGuardInfo("none", {
+      model: "none",
+      confidence: "high"
+    });
+  }
+
+  const usesTxOrigin = text.includes("tx.origin");
+  const viaAuthority =
+    text.includes("authority.") ||
+    text.includes("cancall") ||
+    text.includes("doesuserhaverole") ||
+    text.includes("permission");
+  const customHelpers = extractCustomGuardHelpers(raw);
+
+  if (
+    text.includes("timelock") ||
+    text.includes("governance") ||
+    text.includes("governor") ||
+    text.includes("safe") ||
+    text.includes("multisig")
+  ) {
+    return createGuardInfo(raw, {
+      model: "governance",
+      confidence: "high",
+      usesTxOrigin,
+      viaAuthority,
+      customHelpers
+    });
+  }
+
+  if (text.includes("proxyadmin") || text.includes("changeadmin")) {
+    return createGuardInfo(raw, {
+      model: "proxy-admin",
+      confidence: "high",
+      usesTxOrigin,
+      viaAuthority,
+      customHelpers
+    });
+  }
+
+  if (text.includes("pendingowner")) {
+    return createGuardInfo(raw, {
+      model: "pending-owner",
+      confidence: "high",
+      usesTxOrigin,
+      viaAuthority,
+      customHelpers
+    });
+  }
+
+  if (text.includes("onlyguardian") || text.includes("_assertguardian") || text.includes("_checkguardian")) {
+    return createGuardInfo(raw, {
+      model: "guardian",
+      confidence: customHelpers.length > 0 ? "medium" : "high",
+      usesTxOrigin,
+      viaAuthority,
+      customHelpers
+    });
+  }
+
+  if (
+    text.includes("onlyrole") ||
+    text.includes("hasrole") ||
+    text.includes("doesuserhaverole") ||
+    text.includes("getroleadmin") ||
+    text.includes("default_admin_role") ||
+    text.includes("fundadmin") ||
+    text.includes("permission") ||
+    text.includes("cancall")
+  ) {
+    return createGuardInfo(raw, {
+      model: "role",
+      confidence: customHelpers.length > 0 || viaAuthority || usesTxOrigin ? "medium" : "high",
+      usesTxOrigin,
+      viaAuthority,
+      customHelpers
+    });
+  }
+
+  if (text.includes("onlyowner") || text.includes("_assertowner") || text.includes("_checkowner")) {
+    return createGuardInfo(raw, {
+      model: "owner",
+      confidence: customHelpers.length > 0 ? "medium" : "high",
+      usesTxOrigin,
+      viaAuthority,
+      customHelpers
+    });
+  }
+
+  return createGuardInfo(raw, {
+    model: customHelpers.length > 0 ? "custom" : "unknown",
+    confidence: customHelpers.length > 0 ? "medium" : "low",
+    usesTxOrigin,
+    viaAuthority,
+    customHelpers
+  });
+}
+
+function createBodyGuardHints() {
+  return {
+    models: new Set(),
+    usesTxOrigin: false,
+    viaAuthority: false,
+    customHelpers: new Set()
+  };
+}
+
+function mergeBodyGuardHints(target, source) {
+  for (const model of source.models) {
+    target.models.add(model);
+  }
+
+  for (const helper of source.customHelpers) {
+    target.customHelpers.add(helper);
+  }
+
+  target.usesTxOrigin = target.usesTxOrigin || source.usesTxOrigin;
+  target.viaAuthority = target.viaAuthority || source.viaAuthority;
+  return target;
+}
+
+function buildGuardInfoFromBodyHints(hints) {
+  const customHelpers = [...hints.customHelpers];
+  const helperSuffix = customHelpers.length > 0 ? `(custom:${customHelpers[0]})` : "(body)";
+  const txOriginSuffix = hints.usesTxOrigin ? " via tx.origin" : "";
+
+  if (hints.models.has("governance")) {
+    return createGuardInfo(`governance${txOriginSuffix}`, {
+      model: "governance",
+      confidence: "medium",
+      usesTxOrigin: hints.usesTxOrigin,
+      viaAuthority: hints.viaAuthority,
+      customHelpers
+    });
+  }
+
+  if (hints.models.has("proxy-admin")) {
+    return createGuardInfo(`onlyProxyAdmin${txOriginSuffix}`, {
+      model: "proxy-admin",
+      confidence: "medium",
+      usesTxOrigin: hints.usesTxOrigin,
+      viaAuthority: hints.viaAuthority,
+      customHelpers
+    });
+  }
+
+  if (hints.models.has("role")) {
+    return createGuardInfo(`onlyRole${helperSuffix}${txOriginSuffix}`, {
+      model: "role",
+      confidence: customHelpers.length > 0 || hints.viaAuthority || hints.usesTxOrigin ? "medium" : "high",
+      usesTxOrigin: hints.usesTxOrigin,
+      viaAuthority: hints.viaAuthority,
+      customHelpers
+    });
+  }
+
+  if (hints.models.has("guardian")) {
+    return createGuardInfo(`onlyGuardian${helperSuffix}${txOriginSuffix}`, {
+      model: "guardian",
+      confidence: customHelpers.length > 0 || hints.usesTxOrigin ? "medium" : "high",
+      usesTxOrigin: hints.usesTxOrigin,
+      viaAuthority: hints.viaAuthority,
+      customHelpers
+    });
+  }
+
+  if (hints.models.has("pending-owner")) {
+    return createGuardInfo(`pendingOwner${txOriginSuffix}`, {
+      model: "pending-owner",
+      confidence: "high",
+      usesTxOrigin: hints.usesTxOrigin,
+      viaAuthority: hints.viaAuthority,
+      customHelpers
+    });
+  }
+
+  if (hints.models.has("owner")) {
+    return createGuardInfo(`onlyOwner${helperSuffix}${txOriginSuffix}`, {
+      model: "owner",
+      confidence: customHelpers.length > 0 || hints.usesTxOrigin ? "medium" : "high",
+      usesTxOrigin: hints.usesTxOrigin,
+      viaAuthority: hints.viaAuthority,
+      customHelpers
+    });
+  }
+
+  return null;
+}
+
 function classifyControlVariable(label) {
   const name = lower(label);
 
@@ -203,43 +447,72 @@ function contractGuardSignals(contract) {
   };
 }
 
-function inferKnownGuard(signature, upgradeHook, contract) {
+function inferKnownGuardInfo(signature, upgradeHook, contract) {
   const name = signature.split("(")[0];
   const signals = contract ? contractGuardSignals(contract) : { hasOwner: false, hasRole: false };
 
   if (name === "upgradeTo" || name === "upgradeToAndCall") {
-    return upgradeHook?.guard ?? "unknown";
+    return upgradeHook
+      ? createGuardInfo(upgradeHook.guard, {
+          model: upgradeHook.guardModel ?? buildGuardInfoFromText(upgradeHook.guard).model,
+          confidence: upgradeHook.guardConfidence ?? "medium",
+          usesTxOrigin: upgradeHook.guardUsesTxOrigin ?? false,
+          viaAuthority: upgradeHook.guardViaAuthority ?? false,
+          customHelpers: unique(upgradeHook.guardHelpers ?? [])
+        })
+      : createGuardInfo("unknown");
   }
 
   if (name === "transferOwnership" || name === "renounceOwnership") {
-    return "onlyOwner";
+    return createGuardInfo("onlyOwner", {
+      model: "owner",
+      confidence: "high"
+    });
   }
 
   if (name === "acceptOwnership") {
-    return "pendingOwner";
+    return createGuardInfo("pendingOwner", {
+      model: "pending-owner",
+      confidence: "high"
+    });
   }
 
   if (name === "grantRole" || name === "revokeRole") {
-    return "onlyRole(getRoleAdmin)";
+    return createGuardInfo("onlyRole(getRoleAdmin)", {
+      model: "role",
+      confidence: "high"
+    });
   }
 
   if (name === "setRoleAdmin") {
-    return "onlyRole(DEFAULT_ADMIN_ROLE)";
+    return createGuardInfo("onlyRole(DEFAULT_ADMIN_ROLE)", {
+      model: "role",
+      confidence: "high"
+    });
   }
 
   if (name === "changeAdmin") {
-    return "onlyProxyAdmin";
+    return createGuardInfo("onlyProxyAdmin", {
+      model: "proxy-admin",
+      confidence: "high"
+    });
   }
 
   if ((name === "pause" || name === "unpause" || name === "freeze" || name === "unfreeze") && signals.hasRole) {
-    return "onlyRole(heuristic)";
+    return createGuardInfo("onlyRole(heuristic)", {
+      model: "role",
+      confidence: "medium"
+    });
   }
 
   if ((name === "pause" || name === "unpause" || name === "freeze" || name === "unfreeze") && signals.hasOwner) {
-    return "onlyOwner(heuristic)";
+    return createGuardInfo("onlyOwner(heuristic)", {
+      model: "owner",
+      confidence: "medium"
+    });
   }
 
-  return "unknown";
+  return createGuardInfo("unknown");
 }
 
 function isMeaningfulStateChanger(item) {
@@ -257,11 +530,122 @@ function extractAstFunctions(sourceAst, contractName) {
     return [];
   }
 
+  const functionNodes = (contract.nodes ?? []).filter(
+    (node) => node.nodeType === "FunctionDefinition" && node.kind === "function" && node.name
+  );
+  const functionNodeMap = new Map(functionNodes.map((node) => [node.name, node]));
+
   function expressionText(node) {
     return lower(expressionToLabel(node));
   }
 
-  function collectBodyGuardHints(node, hints = new Set()) {
+  function applyDirectGuardHint(targetLabel, hints) {
+    const target = lower(targetLabel);
+
+    if (!target || target === "unknown") {
+      return;
+    }
+
+    if (target.includes("tx.origin")) {
+      hints.usesTxOrigin = true;
+    }
+
+    if (
+      target.includes("_checkowner") ||
+      target.includes("_assertowner") ||
+      target.includes(" onlyowner") ||
+      target === "onlyowner"
+    ) {
+      hints.models.add("owner");
+    }
+
+    if (target.includes("pendingowner")) {
+      hints.models.add("pending-owner");
+    }
+
+    if (target.includes("_checkguardian") || target.includes("_assertguardian") || target.includes("onlyguardian")) {
+      hints.models.add("guardian");
+    }
+
+    if (
+      target.includes("_checkrole") ||
+      target.includes("hasrole") ||
+      target.includes("onlyrole") ||
+      target.includes("getroleadmin") ||
+      target.includes("default_admin_role")
+    ) {
+      hints.models.add("role");
+    }
+
+    if (
+      target.includes("_assertfundadmin") ||
+      target.includes("_assertpermission") ||
+      target.includes("_checkpermissions") ||
+      target.includes("_assertcancall") ||
+      target.includes("_checkcancall") ||
+      target.includes("doesuserhaverole") ||
+      target.includes("cancall") ||
+      target.includes("permission")
+    ) {
+      hints.models.add("role");
+      hints.viaAuthority = true;
+    }
+
+    if (target.includes("timelock") || target.includes("governance") || target.includes("governor")) {
+      hints.models.add("governance");
+    }
+
+    if (target.includes("proxyadmin")) {
+      hints.models.add("proxy-admin");
+    }
+
+    for (const helper of extractCustomGuardHelpers(targetLabel)) {
+      hints.customHelpers.add(helper);
+    }
+  }
+
+  function inspectCondition(conditionText, hints) {
+    const condition = lower(conditionText);
+    const checksCaller =
+      condition.includes("msg.sender") ||
+      condition.includes("_msgsender") ||
+      condition.includes("tx.origin");
+
+    if (condition.includes("tx.origin")) {
+      hints.usesTxOrigin = true;
+    }
+
+    if (checksCaller && (condition.includes("owner") || condition.includes("_owner"))) {
+      hints.models.add("owner");
+    }
+
+    if (checksCaller && condition.includes("pendingowner")) {
+      hints.models.add("pending-owner");
+    }
+
+    if (checksCaller && condition.includes("guardian")) {
+      hints.models.add("guardian");
+    }
+
+    if (
+      condition.includes("hasrole") ||
+      condition.includes("_checkrole") ||
+      condition.includes("getroleadmin") ||
+      condition.includes("default_admin_role") ||
+      condition.includes("doesuserhaverole") ||
+      condition.includes("cancall") ||
+      condition.includes("permission")
+    ) {
+      hints.models.add("role");
+      hints.viaAuthority = true;
+    }
+
+    if (condition.includes("timelock") || condition.includes("governance") || condition.includes("governor")) {
+      hints.models.add("governance");
+    }
+  }
+
+  function collectBodyGuardHints(node, hints = createBodyGuardHints(), visited = new Set()) {
     if (!node || typeof node !== "object") {
       return hints;
     }
@@ -273,83 +657,61 @@ function extractAstFunctions(sourceAst, contractName) {
       return hints;
     }
 
+    if (node.nodeType === "MemberAccess" && expressionText(node) === "tx.origin") {
+      hints.usesTxOrigin = true;
+    }
+
     if (node.nodeType === "FunctionCall") {
-      const target = expressionText(node.expression);
+      const targetLabel = expressionToLabel(node.expression);
+      const target = lower(targetLabel);
 
-      if (target.includes("_checkowner") || target.includes("checkowner")) {
-        hints.add("onlyOwner");
-      }
-
-      if (target.includes("_checkrole") || target.includes("hasrole") || target.includes("onlyrole")) {
-        hints.add("onlyRole");
-      }
-
-      if (target.includes("timelock") || target.includes("governance") || target.includes("governor")) {
-        hints.add("governance");
-      }
+      applyDirectGuardHint(targetLabel, hints);
 
       if (target === "require" || target === "assert") {
-        const condition = expressionText(node.arguments?.[0]);
-        const checksSender = condition.includes("msg.sender") || condition.includes("_msgsender");
+        inspectCondition(expressionText(node.arguments?.[0]), hints);
+      }
 
-        if (checksSender && (condition.includes("owner") || condition.includes("_owner"))) {
-          hints.add("onlyOwner");
-        }
+      if (node.expression?.nodeType === "Identifier") {
+        const helperName = node.expression.name;
+        const helperNode = functionNodeMap.get(helperName);
 
-        if (checksSender && condition.includes("pendingowner")) {
-          hints.add("pendingOwner");
-        }
-
-        if (
-          condition.includes("hasrole") ||
-          condition.includes("_checkrole") ||
-          condition.includes("getroleadmin") ||
-          condition.includes("default_admin_role")
-        ) {
-          hints.add("onlyRole");
+        if (helperNode?.body && !visited.has(helperName)) {
+          visited.add(helperName);
+          collectBodyGuardHints(helperNode.body, hints, visited);
+          visited.delete(helperName);
         }
       }
     }
 
     for (const value of Object.values(node)) {
-      collectBodyGuardHints(value, hints);
+      collectBodyGuardHints(value, hints, visited);
     }
 
     return hints;
   }
 
-  function guardLabelFromBody(body) {
+  function guardInfoFromBody(body) {
     const hints = collectBodyGuardHints(body);
-    if (hints.has("governance")) {
-      return "governance";
-    }
-
-    if (hints.has("onlyRole")) {
-      return "onlyRole(body)";
-    }
-
-    if (hints.has("pendingOwner")) {
-      return "pendingOwner";
-    }
-
-    if (hints.has("onlyOwner")) {
-      return "onlyOwner(body)";
-    }
-
-    return null;
+    return buildGuardInfoFromBodyHints(hints);
   }
 
-  return (contract.nodes ?? [])
-    .filter((node) => node.nodeType === "FunctionDefinition" && node.kind === "function" && node.name)
-    .map((node) => ({
+  return functionNodes.map((node) => {
+    const modifiers = (node.modifiers ?? []).map(modifierToLabel);
+    const modifierGuardInfo = modifiers.length > 0 ? buildGuardInfoFromText(modifiers.join(" + ")) : null;
+    const bodyGuardInfo = guardInfoFromBody(node.body);
+
+    return {
       name: node.name,
       signature: signatureFromAstFunction(node),
       visibility: node.visibility,
       stateMutability: node.stateMutability,
-      modifiers: (node.modifiers ?? []).map(modifierToLabel),
+      modifiers,
       hasBody: Boolean(node.body),
-      bodyGuard: guardLabelFromBody(node.body)
-    }));
+      bodyGuard: bodyGuardInfo?.label ?? null,
+      bodyGuardInfo,
+      modifierGuardInfo
+    };
+  });
 }
 
 function deriveAccessModel(privilegedFunctions, controlVariables, adminSurface, upgradeHook) {
@@ -362,13 +724,17 @@ function deriveAccessModel(privilegedFunctions, controlVariables, adminSurface, 
     .join(" ")
     .toLowerCase();
 
+  const guardModels = privilegedFunctions.map((item) => item.guardModel);
   const hasRole =
+    guardModels.includes("role") ||
     haystack.includes("onlyrole") ||
     haystack.includes("getroleadmin") ||
     haystack.includes("default_admin_role") ||
     adminSurface.some((item) => item.includes("grantRole(") || item.includes("revokeRole(") || item.includes("setRoleAdmin(")) ||
     controlVariables.some((item) => item.category === "role");
   const hasOwner =
+    guardModels.includes("owner") ||
+    guardModels.includes("pending-owner") ||
     haystack.includes("onlyowner") ||
     haystack.includes("pendingowner") ||
     adminSurface.some(
@@ -378,8 +744,14 @@ function deriveAccessModel(privilegedFunctions, controlVariables, adminSurface, 
         item.includes("renounceOwnership(") ||
         item.includes("changeAdmin(")
     );
-  const hasGovernance = haystack.includes("timelock") || haystack.includes("governance") || haystack.includes("safe") || haystack.includes("multisig");
-  const hasNone = privilegedFunctions.some((item) => item.guard === "none");
+  const hasGovernance =
+    guardModels.includes("governance") ||
+    guardModels.includes("proxy-admin") ||
+    haystack.includes("timelock") ||
+    haystack.includes("governance") ||
+    haystack.includes("safe") ||
+    haystack.includes("multisig");
+  const hasNone = privilegedFunctions.some((item) => item.guardModel === "none" || item.guard === "none");
 
   if ((hasRole && hasOwner) || (hasGovernance && (hasRole || hasOwner))) {
     return "mixed";
@@ -411,27 +783,42 @@ function buildPrivilegedFunctionMap(contract) {
   let upgradeHook = null;
 
   for (const item of explicitPrivileged) {
+    const guardInfo = buildGuardInfoFromText(item.guard ?? "unknown");
     map.set(item.signature, {
       signature: item.signature,
       name: item.signature.split("(")[0],
       kind: item.kind ?? classifyFunctionKind(item.signature.split("(")[0], item.signature),
       guard: item.guard ?? "unknown",
-      guardSource: "explicit"
+      guardSource: "explicit",
+      guardModel: guardInfo.model,
+      guardConfidence: guardInfo.confidence,
+      guardUsesTxOrigin: guardInfo.usesTxOrigin,
+      guardViaAuthority: guardInfo.viaAuthority,
+      guardHelpers: guardInfo.customHelpers
     });
   }
 
   for (const item of astFunctions) {
-    const guard =
-      item.modifiers.length > 0
-        ? item.modifiers.join(" + ")
-        : item.bodyGuard ?? "none";
+    const guardInfo =
+      item.modifierGuardInfo ??
+      item.bodyGuardInfo ??
+      createGuardInfo("none", {
+        model: "none",
+        confidence: "high"
+      });
+    const guard = guardInfo.label;
     if (item.name === "_authorizeUpgrade") {
       upgradeHook = {
         signature: item.signature,
         guard,
         modifiers: item.modifiers,
         visibility: item.visibility,
-        source: "ast"
+        source: "ast",
+        guardModel: guardInfo.model,
+        guardConfidence: guardInfo.confidence,
+        guardUsesTxOrigin: guardInfo.usesTxOrigin,
+        guardViaAuthority: guardInfo.viaAuthority,
+        guardHelpers: guardInfo.customHelpers
       };
       continue;
     }
@@ -447,7 +834,12 @@ function buildPrivilegedFunctionMap(contract) {
         name: item.name,
         kind: classifyFunctionKind(item.name, item.signature),
         guard,
-        guardSource: item.modifiers.length > 0 ? "modifiers" : item.bodyGuard ? "body" : "ast"
+        guardSource: item.modifiers.length > 0 ? "modifiers" : item.bodyGuard ? "body" : "ast",
+        guardModel: guardInfo.model,
+        guardConfidence: guardInfo.confidence,
+        guardUsesTxOrigin: guardInfo.usesTxOrigin,
+        guardViaAuthority: guardInfo.viaAuthority,
+        guardHelpers: guardInfo.customHelpers
       });
     }
   }
@@ -466,11 +858,18 @@ function buildPrivilegedFunctionMap(contract) {
       continue;
     }
 
+    const inferredGuard = inferKnownGuardInfo(signature, upgradeHook, contract);
+
     map.set(signature, {
       signature,
       name: abiItem.name,
       kind: classifyFunctionKind(abiItem.name, signature),
-      guard: inferKnownGuard(signature, upgradeHook, contract),
+      guard: inferredGuard.label,
+      guardModel: inferredGuard.model,
+      guardConfidence: inferredGuard.confidence,
+      guardUsesTxOrigin: inferredGuard.usesTxOrigin,
+      guardViaAuthority: inferredGuard.viaAuthority,
+      guardHelpers: inferredGuard.customHelpers,
       guardSource:
         abiItem.name === "upgradeTo" || abiItem.name === "upgradeToAndCall"
           ? upgradeHook
@@ -481,12 +880,18 @@ function buildPrivilegedFunctionMap(contract) {
   }
 
   if (!upgradeHook && contract.governance?.upgradeAuthorizer) {
+    const explicitGuard = buildGuardInfoFromText(contract.governance.upgradeAuthorizer);
     upgradeHook = {
       signature: "_authorizeUpgrade(address)",
       guard: contract.governance.upgradeAuthorizer,
       modifiers: [contract.governance.upgradeAuthorizer],
       visibility: "internal",
-      source: "explicit"
+      source: "explicit",
+      guardModel: explicitGuard.model,
+      guardConfidence: explicitGuard.confidence,
+      guardUsesTxOrigin: explicitGuard.usesTxOrigin,
+      guardViaAuthority: explicitGuard.viaAuthority,
+      guardHelpers: explicitGuard.customHelpers
     };
   }
 
@@ -498,6 +903,11 @@ function buildPrivilegedFunctionMap(contract) {
     ) {
       entry.guard = upgradeHook.guard;
       entry.guardSource = "_authorizeUpgrade";
+      entry.guardModel = upgradeHook.guardModel;
+      entry.guardConfidence = upgradeHook.guardConfidence;
+      entry.guardUsesTxOrigin = upgradeHook.guardUsesTxOrigin;
+      entry.guardViaAuthority = upgradeHook.guardViaAuthority;
+      entry.guardHelpers = upgradeHook.guardHelpers;
     }
   }
 
@@ -553,11 +963,21 @@ export function buildAuthorityContext(contract) {
   const adminSurface = buildAdminSurface(privilegedFunctions, contract.abi ?? []);
   const accessModel = deriveAccessModel(privilegedFunctions, controlVariables, adminSurface, upgradeHook);
   const upgradeAuthorizer = contract.governance?.upgradeAuthorizer ?? upgradeHook?.guard ?? null;
+  const explicitUpgradeAuthorizerInfo =
+    contract.governance?.upgradeAuthorizer != null
+      ? buildGuardInfoFromText(contract.governance.upgradeAuthorizer)
+      : null;
 
   return {
     governance: {
       ...(contract.governance ?? {}),
       upgradeAuthorizer,
+      upgradeAuthorizerModel:
+        explicitUpgradeAuthorizerInfo?.model ?? upgradeHook?.guardModel ?? null,
+      upgradeAuthorizerConfidence:
+        explicitUpgradeAuthorizerInfo?.confidence ?? upgradeHook?.guardConfidence ?? null,
+      upgradeAuthorizerUsesTxOrigin:
+        explicitUpgradeAuthorizerInfo?.usesTxOrigin ?? upgradeHook?.guardUsesTxOrigin ?? false,
       upgradeAuthorizerSource:
         contract.governance?.upgradeAuthorizer != null
           ? "explicit"
