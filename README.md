@@ -82,6 +82,10 @@ This script:
 - runs the analyzer on real historical upgrades
 - writes CSV and JSON outputs under `reports/`
 
+Automated analysis summary and shortlist:
+
+- [docs/AUTOMATED_ANALYSIS.md](docs/AUTOMATED_ANALYSIS.md)
+
 ## Repository Layout
 
 ```text
