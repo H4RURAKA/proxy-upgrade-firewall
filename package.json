@@ -11,6 +11,7 @@
     "check:json": "node src/index.js check --fixture fixtures/corpus/uups-admin-drift --format json",
     "check:build-info": "node src/index.js check --current-build-info fixtures/compiler-inputs/build-info/current.build-info.json --proposed-build-info fixtures/compiler-inputs/build-info/proposed.build-info.json --contract contracts/TreasuryVault.sol:TreasuryVault --format markdown",
     "explore:historical": "node scripts/explore-historical-upgrades.mjs",
+    "render:pr-comment": "node scripts/render-pr-comment.mjs",
     "replay:live": "node scripts/replay-live-derived-dangerous-upgrades.mjs --limit 5",
     "inspect:help": "node src/index.js inspect --help",
     "test": "node --test"
