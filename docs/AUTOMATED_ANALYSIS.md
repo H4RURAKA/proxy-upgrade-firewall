@@ -117,7 +117,8 @@ Manual review note:
 ### 2. USYC pair 4
 
 - proxy: `0x136471a34f6ef19fe571effc1ca711fdb8e49f2b`
-- report: `reports/historical-upgrade-details/04-usyc-18183121-to-19562310/report.json`
+- manual review: [docs/case-studies/usyc-pair-4.md](case-studies/usyc-pair-4.md)
+- local report: `reports/historical-upgrade-details/04-usyc-18183121-to-19562310/report.json`
 - verdict: `block`
 - risk score: `100`
 
@@ -128,6 +129,10 @@ Why it stands out:
 - `AUTH-004` on `setMinterAllowance`
 
 This is the strongest guard-regression case in the dataset.
+
+Manual review note:
+
+- the first pass suggests the pair is better interpreted as an owner-to-fund-admin authority migration, with a real `tx.origin` review concern, rather than as a batch of unguarded management functions
 
 ### 3. WLFI pair 1
 
