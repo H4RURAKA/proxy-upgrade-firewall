@@ -1,7 +1,5 @@
 # Case Study: USDtb Pair 1
 
-This note documents a top300 manual review pass for the first USDtb historical upgrade pair.
-
 ## Pair
 
 - asset: `USDtb`
@@ -108,7 +106,3 @@ USDtb pair 1 still belongs in `manual-review`, but the original `block` explanat
 - keep: the pair as a substantial product and governance migration
 - keep: `ABI-001` and `ABI-003` as useful review signals
 - focus: on role redesign, migration initialization, and downstream integration impact rather than on an obvious storage break
-
-This case is useful because it highlights a storage-analysis gap:
-
-- enum/type-label changes inside a deliberately mirrored legacy storage block should not be treated the same way as a true slot collision

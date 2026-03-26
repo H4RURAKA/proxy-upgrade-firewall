@@ -1,7 +1,5 @@
 # Case Study: Aave Pair 3
 
-This note documents a top300 manual review pass for the third Aave historical upgrade pair.
-
 ## Pair
 
 - asset: `Aave`
@@ -113,7 +111,3 @@ Aave pair 3 should stay in the highest-priority manual-review bucket, but not be
 - downgrade: the literal “catastrophic storage collision” reading of `STORAGE-001`
 - keep: this pair as a serious storage-and-governance migration review item
 - focus: on proving the packed balance migration assumptions, not on generic ABI churn
-
-This case is useful because it shows a boundary of static diffing:
-
-- some storage shape changes are intentionally compatible, but only under domain-specific invariants that the analyzer cannot yet prove automatically

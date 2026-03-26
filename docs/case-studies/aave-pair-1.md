@@ -1,7 +1,5 @@
 # Case Study: Aave Pair 1
 
-This note documents a manual review pass for the first Aave historical upgrade pair from the top300 shortlist.
-
 ## Pair
 
 - asset: `Aave`
@@ -86,5 +84,3 @@ Aave pair 1 is not a high-confidence exploit candidate.
 - keep: this as a semantic storage and governance-surface migration
 - classify: this as `manual-review / design migration`
 - do not treat: this as PoC-worthy on current evidence
-
-This pair is useful because it shows a case where a strong storage warning still points to something real, but the right human interpretation is “governance feature migration,” not “confirmed storage corruption.”

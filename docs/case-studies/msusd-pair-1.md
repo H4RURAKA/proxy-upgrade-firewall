@@ -1,7 +1,5 @@
 # Case Study: msUSD Pair 1
 
-This note documents a manual review pass for the first msUSD historical upgrade pair from the top300 shortlist.
-
 ## Pair
 
 - asset: `Main Street USD`
@@ -100,5 +98,3 @@ msUSD pair 1 is not a strong security finding.
 - keep: the observation that the mutable and upgradeable surface grew substantially
 - classify: this as a bootstrap placeholder-to-product transition
 - do not treat: this pair as PoC-worthy on current evidence
-
-This case is useful because it suggests a concrete analyzer improvement: placeholder or shell implementations should be identified explicitly so they do not dominate the shortlist with expected bootstrap transitions.

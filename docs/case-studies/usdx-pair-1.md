@@ -1,7 +1,5 @@
 # Case Study: USDX Pair 1
 
-This note documents a manual review pass for the first USDX historical upgrade pair from the top300 shortlist.
-
 ## Pair
 
 - asset: `Hex Trust USD`
@@ -89,5 +87,3 @@ USDX pair 1 is a meaningful manual-review case, but not a confirmed exploit case
 - keep: the new bridge surface as a trust and operational risk
 - note: the initializer risk appears mitigated by the historical upgrade transaction
 - do not treat: this as PoC-worthy without a stronger exploit hypothesis
-
-This case is useful because it shows a real but nuanced upgrade-authority change: not “unguarded upgrade,” but “upgrade rights widened while bridge complexity increased.”

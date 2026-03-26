@@ -1,7 +1,5 @@
 # Case Study: USYC Pair 1
 
-This note documents a manual review pass for the first USYC historical upgrade pair from the top300 shortlist.
-
 ## Pair
 
 - asset: `Circle USYC`
@@ -88,5 +86,3 @@ USYC pair 1 is not a vulnerability candidate.
 - downgrade: any exploit framing
 - treat: this as `manual-review` only because it materially changes the token’s operational model
 - do not treat: this as PoC-worthy
-
-This pair is useful as a baseline for later USYC upgrades: it shows where the management and permission surface first expanded.

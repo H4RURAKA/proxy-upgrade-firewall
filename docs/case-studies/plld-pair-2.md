@@ -1,7 +1,5 @@
 # Case Study: PLLD Pair 2
 
-This note documents a top300 manual review pass for one of the strongest authority-heavy shortlist items.
-
 ## Pair
 
 - asset: `Palladium Network`
@@ -129,8 +127,3 @@ PLLD pair 2 is still a strong manual-review candidate, but the automated explana
 - keep: the authority migration from role-based pause control into a new owner-committee model
 - escalate: the broken `isConfirmOwner()` helper as a real source-level authorization bug
 - keep: this pair in a high-priority review bucket because the governance execution model changed materially
-
-This case is useful because it shows both sides of manual review:
-
-- some automated findings were too aggressive
-- but a separate code-level issue surfaced once the new control model was read directly in source

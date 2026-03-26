@@ -1,7 +1,5 @@
 # Case Study: WLFI Pair 1
 
-This note documents the third manual review pass in the historical-upgrade shortlist.
-
 ## Pair
 
 - asset: `World Liberty Financial`
@@ -150,5 +148,3 @@ WLFI pair 1 is a good baseline manual-review case.
 - keep: the pair in `manual-review` because the trust model expanded
 - downgrade: any interpretation that this pair is an obvious vulnerability candidate
 - treat: the compiler findings as supporting context rather than primary risk
-
-Compared with the two USYC cases, this pair looks more like a legitimate V2 rollout than a suspicious upgrade. It is still worth reviewing carefully, but the review focus is governance design and operational power, not a missing guard or storage break.

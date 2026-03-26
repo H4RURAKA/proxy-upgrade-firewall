@@ -89,70 +89,44 @@ The strongest automated signals in this project are:
 
 Signals such as `ABI-001` and `COMPILER-*` are still useful, but usually need more context before they imply risk.
 
-## Shortlist For Manual Review
-
-The next manual review pass should focus on these three cases.
+## Representative Case Studies
 
 ### 1. USYC pair 8
 
 - proxy: `0x136471a34f6ef19fe571effc1ca711fdb8e49f2b`
 - manual review: [docs/case-studies/usyc-pair-8.md](case-studies/usyc-pair-8.md)
-- local report: `reports/historical-upgrade-details/08-usyc-22976690-to-23977326/report.json`
 - verdict: `block`
 - risk score: `100`
-
-Why it stands out:
-
+- automated signals:
 - `AUTH-003` on upgrade authorization
 - `AUTH-005` on `upgradeTo` and `upgradeToAndCall`
 - `AUTH-004` on a new `sweep(address,uint256,address)` entrypoint
 - `AUTH-008` and `AUTH-009` on control-plane changes
-
-This is the highest-priority authority case in the dataset.
-
-Manual review note:
-
-- the first pass suggests this pair is better treated as a custom-access false-positive case study than as a confirmed upgrade-authority regression
+- reviewed outcome: better treated as a custom-access false-positive case study than as a confirmed upgrade-authority regression
 
 ### 2. USYC pair 4
 
 - proxy: `0x136471a34f6ef19fe571effc1ca711fdb8e49f2b`
 - manual review: [docs/case-studies/usyc-pair-4.md](case-studies/usyc-pair-4.md)
-- local report: `reports/historical-upgrade-details/04-usyc-18183121-to-19562310/report.json`
 - verdict: `block`
 - risk score: `100`
-
-Why it stands out:
-
+- automated signals:
 - multiple body-level guard regressions remained after false-positive reduction
 - `AUTH-005` on `setFeeRecipient`, `setManagementFee`, `setOracle`, and `setUnderlying`
 - `AUTH-004` on `setMinterAllowance`
-
-This is the strongest guard-regression case in the dataset.
-
-Manual review note:
-
-- the first pass suggests the pair is better interpreted as an owner-to-fund-admin authority migration, with a real `tx.origin` review concern, rather than as a batch of unguarded management functions
+- reviewed outcome: better interpreted as an owner-to-fund-admin authority migration, with a real `tx.origin` review concern, rather than as a batch of unguarded management functions
 
 ### 3. WLFI pair 1
 
 - proxy: `0xda5e1988097297dcdc1f90d4dfe7909e847cbef6`
 - manual review: [docs/case-studies/wlfi-pair-1.md](case-studies/wlfi-pair-1.md)
-- local report: `reports/historical-upgrade-details/01-wlfi-20857295-to-23207432/report.json`
 - verdict: `manual-review`
 - risk score: `51`
-
-Why it stands out:
-
+- automated signals:
 - large privileged mutable surface expansion
 - substantial ABI and compiler-profile changes
 - useful contrast against the two stronger USYC cases
-
-This is a good manual-review baseline because it may turn out to be a legitimate product upgrade rather than a security issue.
-
-Manual review note:
-
-- the first pass supports that baseline: this looks like a structured V2 feature rollout with owner, guardian, and vesting flows, not a clear exploit candidate
+- reviewed outcome: structured V2 feature rollout with owner, guardian, and vesting flows, not a clear exploit candidate
 
 ## Additional Top300 Case Studies
 
@@ -171,7 +145,7 @@ Additional manual reviews from the expanded top300 run:
 - [docs/case-studies/sent-pair-1.md](case-studies/sent-pair-1.md)
 - [docs/case-studies/usdx-pair-1.md](case-studies/usdx-pair-1.md)
 
-Current pattern after manual review:
+Manual review pattern:
 
 - some shortlist items are genuine source-level problems or strong review concerns
 - some are expected bootstrap or feature-rollout upgrades that the analyzer currently ranks too high

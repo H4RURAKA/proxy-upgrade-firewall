@@ -1,7 +1,5 @@
 # Case Study: USYC Pair 6
 
-This note documents a manual review pass for the sixth USYC historical upgrade pair from the top300 shortlist.
-
 ## Pair
 
 - asset: `Circle USYC`
@@ -119,5 +117,3 @@ USYC pair 6 is a strong design-review case, but not a strong confirmed-vulnerabi
 - keep: the semantic storage-change signal
 - escalate: the fact that token pricing and redemption now depend on a new external teller dependency
 - do not treat: this as PoC-ready based on the current evidence
-
-This pair is useful because it highlights a class of changes that sits between “governance-only refactor” and “direct vulnerability”: the trust and pricing model changed materially, so the upgrade deserves human approval even though the guards did not disappear.

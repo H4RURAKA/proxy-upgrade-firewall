@@ -1,7 +1,5 @@
 # Case Study: USYC Pair 4
 
-This note documents the second manual review pass in the historical-upgrade shortlist.
-
 ## Pair
 
 - asset: `Circle USYC`
@@ -142,8 +140,3 @@ USYC pair 4 is stronger than pair 8 as a manual-review candidate, but not for th
 - escalate: the use of `tx.origin` inside `_assertFundAdmin()`
 - downgrade: the specific `STORAGE-001` collision claim
 - keep: the pair in a high-priority manual-review bucket because the privilege model and token operation flow changed materially
-
-This case is useful for improving the analyzer because it highlights two separate gaps:
-
-- custom role guards should not be flattened to `none`
-- semantic authority migrations should be reported distinctly from unguarded entrypoints

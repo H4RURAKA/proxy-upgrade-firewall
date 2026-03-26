@@ -1,7 +1,5 @@
 # Case Study: WLFI Pair 2
 
-This note documents a manual review pass for the second WLFI historical upgrade pair from the top300 shortlist.
-
 ## Pair
 
 - asset: `World Liberty Financial`
@@ -80,5 +78,3 @@ WLFI pair 2 is not a strong security finding.
 - keep: this as a low-intensity product and admin-surface follow-up
 - classify: this as `feature rollout / operational refactor`
 - do not treat: this as PoC-worthy on current evidence
-
-This pair is useful mostly as a contrast case: the analyzer still surfaced a real mutable-surface change, but source review suggests a routine owner-controlled refinement rather than a vulnerability.

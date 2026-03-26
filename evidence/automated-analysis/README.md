@@ -32,33 +32,11 @@ This directory contains public evaluation snapshots derived from local runs. The
 - The bigger bottleneck is still coverage, not ranking. In the top300 run only `56 / 300` contracts were ready for the full workflow because `221 / 300` had no reconstructible live implementation path and `18 / 300` lacked a Sourcify-verified implementation.
 - These outputs are review shortlists, not confirmed vulnerability reports. Each suspicious pair still needs source review before making any security claim.
 
-## Follow-up
+## Manual Review
 
-- Existing manual case studies:
-  - [../../docs/case-studies/plld-pair-2.md](../../docs/case-studies/plld-pair-2.md)
-  - [../../docs/case-studies/wlfi-pair-2.md](../../docs/case-studies/wlfi-pair-2.md)
-  - [../../docs/case-studies/rlusd-pair-1.md](../../docs/case-studies/rlusd-pair-1.md)
-  - [../../docs/case-studies/usdtb-pair-1.md](../../docs/case-studies/usdtb-pair-1.md)
-  - [../../docs/case-studies/usyc-pair-1.md](../../docs/case-studies/usyc-pair-1.md)
-  - [../../docs/case-studies/aave-pair-3.md](../../docs/case-studies/aave-pair-3.md)
-  - [../../docs/case-studies/aave-pair-1.md](../../docs/case-studies/aave-pair-1.md)
-  - [../../docs/case-studies/frxusd-pair-1.md](../../docs/case-studies/frxusd-pair-1.md)
-  - [../../docs/case-studies/usyc-pair-2.md](../../docs/case-studies/usyc-pair-2.md)
-  - [../../docs/case-studies/usyc-pair-3.md](../../docs/case-studies/usyc-pair-3.md)
-  - [../../docs/case-studies/usyc-pair-8.md](../../docs/case-studies/usyc-pair-8.md)
-  - [../../docs/case-studies/usyc-pair-4.md](../../docs/case-studies/usyc-pair-4.md)
-  - [../../docs/case-studies/usyc-pair-6.md](../../docs/case-studies/usyc-pair-6.md)
-  - [../../docs/case-studies/wlfi-pair-1.md](../../docs/case-studies/wlfi-pair-1.md)
-  - [../../docs/case-studies/move-pair-1.md](../../docs/case-studies/move-pair-1.md)
-  - [../../docs/case-studies/msusd-pair-1.md](../../docs/case-studies/msusd-pair-1.md)
-  - [../../docs/case-studies/msusd-pair-2.md](../../docs/case-studies/msusd-pair-2.md)
-  - [../../docs/case-studies/sent-pair-1.md](../../docs/case-studies/sent-pair-1.md)
-  - [../../docs/case-studies/usdx-pair-1.md](../../docs/case-studies/usdx-pair-1.md)
-- Shortlist interpretation after manual review:
-  - PLLD pair 2 remains the clearest candidate for deeper exploit validation
-  - the new `move`, `msusd`, and `sent` case studies mostly look like rollout-sensitive upgrades, not immediate confirmed vulnerabilities
-  - the additional USYC cases mostly reinforce the need to separate semantic storage and business-logic migrations from exploit claims
-  - an exploit-plausibility split is available at [../../docs/EXPLOIT_TRIAGE.md](../../docs/EXPLOIT_TRIAGE.md)
+- exploit-plausibility split: [../../docs/EXPLOIT_TRIAGE.md](../../docs/EXPLOIT_TRIAGE.md)
+- case studies: [../../docs/case-studies/](../../docs/case-studies/)
+- current standout PoC candidate from the reviewed set: [../../docs/case-studies/plld-pair-2.md](../../docs/case-studies/plld-pair-2.md)
 
 ## Notes
 

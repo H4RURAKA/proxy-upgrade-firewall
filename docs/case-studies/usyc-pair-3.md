@@ -1,7 +1,5 @@
 # Case Study: USYC Pair 3
 
-This note documents a manual review pass for the third USYC historical upgrade pair from the top300 shortlist.
-
 ## Pair
 
 - asset: `Circle USYC`
@@ -110,5 +108,3 @@ USYC pair 3 is best read as a governance and product migration case.
 - keep: the semantic storage and authority-model changes
 - keep: this pair in `manual-review`
 - do not treat: this as a high-confidence exploit candidate
-
-This case is useful because it shows a kind of upgrade the analyzer should keep surfacing, but with wording closer to “control-plane migration” than to “vulnerability.”

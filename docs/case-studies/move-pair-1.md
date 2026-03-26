@@ -1,7 +1,5 @@
 # Case Study: MOVE Pair 1
 
-This note documents a manual review pass for the first MOVE historical upgrade pair from the top300 shortlist.
-
 ## Pair
 
 - asset: `Movement`
@@ -98,5 +96,3 @@ MOVE pair 1 is not a confirmed vulnerability on the evidence reviewed so far.
 - elevate: the unprotected `reinitializer(2)` as the main rollout risk
 - note: the historical transaction appears to have mitigated that risk by combining upgrade and initialization
 - do not treat: this pair as PoC-ready unless a non-atomic upgrade path is proven
-
-This case is useful because it exposes an analyzer blind spot: initializer and reinitializer surfaces can matter more than ordinary role diffs during proxy upgrades.

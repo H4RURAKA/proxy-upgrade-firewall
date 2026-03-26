@@ -1,7 +1,5 @@
 # Case Study: frxUSD Pair 1
 
-This note documents a manual review pass for the first frxUSD historical upgrade pair from the top300 shortlist.
-
 ## Pair
 
 - asset: `Frax USD`
@@ -94,5 +92,3 @@ frxUSD pair 1 is not a strong exploit case.
 - downgrade: any framing that implies a hidden authorization bug
 - classify: this as `design-risk / centralized control expansion`
 - do not treat: this as PoC-worthy on current evidence
-
-This case is useful because it shows that some upgrades are security-relevant mainly because they change who can do what operationally, not because they introduce an obvious outsider exploit path.

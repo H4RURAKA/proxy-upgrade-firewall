@@ -1,7 +1,5 @@
 # Case Study: RLUSD Pair 1
 
-This note documents a top300 manual review pass for the first RLUSD historical upgrade pair.
-
 ## Pair
 
 - asset: `Ripple USD`
@@ -103,7 +101,3 @@ RLUSD pair 1 is not a strong true-positive authority case.
 - downgrade: the upgrade-authority regression interpretation
 - keep: the pair in `manual-review` because the feature set and code-generation profile changed materially
 - treat: this as an inheritance-resolution blind spot in the analyzer, not as evidence that RLUSD exposed an unguarded upgrade path
-
-This case is useful because it validates a specific limitation:
-
-- the analyzer still needs better base-contract and inherited-hook resolution before it can make strong claims about UUPS authority regressions

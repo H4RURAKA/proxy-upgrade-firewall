@@ -1,7 +1,5 @@
 # Case Study: USYC Pair 8
 
-This note documents the first manual review pass for the highest-priority item in the automated historical-upgrade shortlist.
-
 ## Pair
 
 - asset: `Circle USYC`
@@ -115,9 +113,3 @@ USYC pair 8 is a good example of a high-signal shortlist item that becomes more 
 - keep: control-plane migration, large ABI shift, and ownership-model change as real review points
 - downgrade: the strongest authority findings from `block-level regression` to `custom-access false positive`
 - do not claim: a confirmed vulnerable upgrade path or an unguarded `sweep(...)` exploit
-
-For this repository, this case is useful because it shows where the analyzer still needs better support for:
-
-- custom owner helpers such as `_assertOwner()`
-- custom role helpers such as `_assertFundAdmin()`
-- reserved-gap consumption patterns such as `__gap[49] -> pendingOwner + __gap[48]`

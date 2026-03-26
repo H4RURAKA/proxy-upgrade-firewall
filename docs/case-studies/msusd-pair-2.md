@@ -1,7 +1,5 @@
 # Case Study: msUSD Pair 2
 
-This note documents a manual review pass for the second msUSD historical upgrade pair from the top300 shortlist.
-
 ## Pair
 
 - asset: `Main Street USD`
@@ -78,5 +76,3 @@ msUSD pair 2 is not a vulnerability candidate.
 - downgrade: exploit framing
 - keep: this as a useful positive case for the analyzer because the ABI changed while the security posture arguably improved
 - do not treat: this as PoC-worthy
-
-This pair is useful because it shows that not every surface expansion is a risk increase. Sometimes the new ABI exists to make upgrades safer.

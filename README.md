@@ -101,26 +101,9 @@ Checked-in evaluation snapshots live under [evidence/automated-analysis/README.m
 Repository docs:
 
 - [evidence/automated-analysis/README.md](evidence/automated-analysis/README.md)
-- [docs/case-studies/plld-pair-2.md](docs/case-studies/plld-pair-2.md)
-- [docs/case-studies/wlfi-pair-2.md](docs/case-studies/wlfi-pair-2.md)
-- [docs/case-studies/rlusd-pair-1.md](docs/case-studies/rlusd-pair-1.md)
-- [docs/case-studies/usdtb-pair-1.md](docs/case-studies/usdtb-pair-1.md)
-- [docs/case-studies/usyc-pair-1.md](docs/case-studies/usyc-pair-1.md)
-- [docs/case-studies/aave-pair-3.md](docs/case-studies/aave-pair-3.md)
-- [docs/case-studies/aave-pair-1.md](docs/case-studies/aave-pair-1.md)
-- [docs/case-studies/frxusd-pair-1.md](docs/case-studies/frxusd-pair-1.md)
-- [docs/case-studies/usyc-pair-2.md](docs/case-studies/usyc-pair-2.md)
-- [docs/case-studies/usyc-pair-3.md](docs/case-studies/usyc-pair-3.md)
-- [docs/case-studies/usyc-pair-8.md](docs/case-studies/usyc-pair-8.md)
-- [docs/case-studies/usyc-pair-4.md](docs/case-studies/usyc-pair-4.md)
-- [docs/case-studies/usyc-pair-6.md](docs/case-studies/usyc-pair-6.md)
-- [docs/case-studies/wlfi-pair-1.md](docs/case-studies/wlfi-pair-1.md)
-- [docs/case-studies/move-pair-1.md](docs/case-studies/move-pair-1.md)
-- [docs/case-studies/msusd-pair-1.md](docs/case-studies/msusd-pair-1.md)
-- [docs/case-studies/msusd-pair-2.md](docs/case-studies/msusd-pair-2.md)
-- [docs/case-studies/sent-pair-1.md](docs/case-studies/sent-pair-1.md)
-- [docs/case-studies/usdx-pair-1.md](docs/case-studies/usdx-pair-1.md)
+- [docs/AUTOMATED_ANALYSIS.md](docs/AUTOMATED_ANALYSIS.md)
 - [docs/EXPLOIT_TRIAGE.md](docs/EXPLOIT_TRIAGE.md)
+- [docs/case-studies/](docs/case-studies/)
 
 ## Repository Layout
 

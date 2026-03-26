@@ -1,7 +1,5 @@
 # Case Study: USYC Pair 2
 
-This note documents a manual review pass for the second USYC historical upgrade pair from the top300 shortlist.
-
 ## Pair
 
 - asset: `Circle USYC`
@@ -104,5 +102,3 @@ USYC pair 2 is not a strong confirmed-vulnerability case.
 - downgrade: the strongest “obvious storage corruption” framing
 - keep: this as a meaningful storage-semantic and business-logic migration
 - treat: this as `manual-review`, not as a PoC-ready exploit candidate
-
-This pair is useful because it shows that a storage alert can still be directionally valuable even when the right conclusion is “migration risk,” not “confirmed collision bug.”

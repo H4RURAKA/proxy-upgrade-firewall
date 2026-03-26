@@ -1,7 +1,5 @@
 # Case Study: SENT Pair 1
 
-This note documents a manual review pass for the first SENT historical upgrade pair from the top300 shortlist.
-
 ## Pair
 
 - asset: `Sentient`
@@ -102,5 +100,3 @@ SENT pair 1 is not a confirmed security issue.
 - treat: the core change as a monetary-policy and initialization-flow migration
 - note: the most interesting residual risk is operational, not permissionless
 - do not treat: this as PoC-worthy without a stronger exploit hypothesis
-
-This case is useful because it shows that business-logic migrations can matter even when the privilege model stays stable.
