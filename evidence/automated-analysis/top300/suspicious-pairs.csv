@@ -1,0 +1,20 @@
+symbol,name,proxy_address,pair_index,verdict,risk_score,max_severity,finding_ids
+wlfi,World Liberty Financial,0xda5e1988097297dcdc1f90d4dfe7909e847cbef6,1,manual-review,51,high,ABI-001|ABI-002|ABI-003|COMPILER-001|COMPILER-003|COMPILER-004
+wlfi,World Liberty Financial,0xda5e1988097297dcdc1f90d4dfe7909e847cbef6,2,manual-review,39,high,ABI-001|ABI-002|COMPILER-004
+usyc,Circle USYC,0x136471a34f6ef19fe571effc1ca711fdb8e49f2b,1,manual-review,34,high,ABI-001|ABI-003|COMPILER-004|STORAGE-002
+usyc,Circle USYC,0x136471a34f6ef19fe571effc1ca711fdb8e49f2b,2,block,73,critical,STORAGE-001|ABI-001|ABI-003|COMPILER-004
+usyc,Circle USYC,0x136471a34f6ef19fe571effc1ca711fdb8e49f2b,3,manual-review,44,high,ABI-001|STORAGE-003|ABI-003|COMPILER-004|STORAGE-002
+usyc,Circle USYC,0x136471a34f6ef19fe571effc1ca711fdb8e49f2b,4,manual-review,100,high,AUTH-TXORIGIN-setfeerecipient-address|AUTH-TXORIGIN-setmanagementfee-uint256|AUTH-TXORIGIN-setminterallowance-address-uint256|AUTH-TXORIGIN-setoracle-address|AUTH-TXORIGIN-setunderlying-address|ABI-001|STORAGE-003|AUTH-007
+usyc,Circle USYC,0x136471a34f6ef19fe571effc1ca711fdb8e49f2b,6,manual-review,63,high,ABI-001|STORAGE-003|AUTH-CUSTOM-GUARD-setteller-address|ABI-002|ABI-003|COMPILER-004
+usyc,Circle USYC,0x136471a34f6ef19fe571effc1ca711fdb8e49f2b,8,block,100,critical,STORAGE-001|ABI-001|AUTH-008|AUTH-009|AUTH-CUSTOM-GUARD-sweep-address-uint256-address|COMPILER-002|ABI-003|COMPILER-001
+aave,Aave,0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9,1,block,62,critical,STORAGE-001|ABI-001|ABI-003|COMPILER-001|COMPILER-004
+aave,Aave,0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9,3,block,82,critical,STORAGE-001|AUTH-009|ABI-001|COMPILER-002|ABI-003|COMPILER-001|COMPILER-004
+rlusd,Ripple USD,0x8292bb45bf1ee4d140127049757c2e0ff06317ed,1,manual-review,100,high,AUTH-003|AUTH-006|AUTH-010|AUTH-005-unpauseaccount-address|AUTH-005-upgradetoandcall-address-bytes|ABI-001|COMPILER-002|COMPILER-001
+usdtb,USDtb,0xc139190f447e929f090edeb554d95abb8b18ac1c,1,block,97,critical,STORAGE-001|ABI-001|ABI-002|COMPILER-002|ABI-003|COMPILER-001|COMPILER-004
+sent,Sentient,0x56a3ba04e95d34268a19b2a4474dc979babdaf76,1,manual-review,48,high,ABI-001|COMPILER-002|ABI-003|COMPILER-001|COMPILER-004|STORAGE-002
+frxusd,Frax USD,0xcacd6fd266af91b8aed52accc382b4e165586e29,1,manual-review,44,high,ABI-001|COMPILER-002|COMPILER-001|COMPILER-004|STORAGE-002
+move,Movement,0x3073f7aaa4db83f95e9fff17424f71d4751a3073,1,manual-review,49,high,ABI-001|AUTH-007|AUTH-008|COMPILER-004
+msusd,Main Street USD,0x4ba01f22827018b4772cd326c7627fb4956a7c00,1,manual-review,54,high,ABI-001|AUTH-007|AUTH-008|ABI-003|COMPILER-004|STORAGE-002
+msusd,Main Street USD,0x4ba01f22827018b4772cd326c7627fb4956a7c00,2,manual-review,43,high,ABI-001|COMPILER-002|COMPILER-001|COMPILER-004
+usdx,Hex Trust USD,0xf8750b54d86be7ae9e32b4a0c826811198d63313,1,manual-review,37,high,ABI-001|COMPILER-001|COMPILER-003|COMPILER-004
+plld,Palladium Network,0xfc8dcfca8a37a855e352098af205b3a537b6b026,2,block,100,critical,AUTH-004-multisigpause|AUTH-004-multisigunpause|AUTH-MIGRATION-pause|AUTH-005-pause|AUTH-MIGRATION-unpause|AUTH-005-unpause|ABI-001|AUTH-007

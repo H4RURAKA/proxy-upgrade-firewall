@@ -1,0 +1,12 @@
+symbol,name,proxy_address,pair_index,verdict,risk_score,max_severity,finding_ids
+wlfi,World Liberty Financial,0xda5e1988097297dcdc1f90d4dfe7909e847cbef6,1,manual-review,51,high,ABI-001|ABI-002|ABI-003|COMPILER-001|COMPILER-003|COMPILER-004
+wlfi,World Liberty Financial,0xda5e1988097297dcdc1f90d4dfe7909e847cbef6,2,manual-review,39,high,ABI-001|ABI-002|COMPILER-004
+usyc,Circle USYC,0x136471a34f6ef19fe571effc1ca711fdb8e49f2b,1,manual-review,34,high,ABI-001|ABI-003|COMPILER-004|STORAGE-002
+usyc,Circle USYC,0x136471a34f6ef19fe571effc1ca711fdb8e49f2b,2,block,73,critical,STORAGE-001|ABI-001|ABI-003|COMPILER-004
+usyc,Circle USYC,0x136471a34f6ef19fe571effc1ca711fdb8e49f2b,3,block,83,critical,STORAGE-001|ABI-001|STORAGE-002|ABI-003|COMPILER-004
+usyc,Circle USYC,0x136471a34f6ef19fe571effc1ca711fdb8e49f2b,4,block,100,critical,STORAGE-001|AUTH-004-setminterallowance-address-uint256|AUTH-005-setfeerecipient-address|AUTH-005-setmanagementfee-uint256|AUTH-005-setoracle-address|AUTH-005-setunderlying-address|ABI-001|STORAGE-002
+usyc,Circle USYC,0x136471a34f6ef19fe571effc1ca711fdb8e49f2b,6,block,100,critical,STORAGE-001|AUTH-004-setteller-address|ABI-001|ABI-002|ABI-003|COMPILER-004
+usyc,Circle USYC,0x136471a34f6ef19fe571effc1ca711fdb8e49f2b,8,block,100,critical,STORAGE-001|AUTH-004-sweep-address-uint256-address|AUTH-003|AUTH-005-upgradeto-address|AUTH-005-upgradetoandcall-address-bytes|ABI-001|AUTH-008|AUTH-009
+aave,Aave,0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9,1,block,72,critical,STORAGE-001|STORAGE-002|ABI-001|ABI-003|COMPILER-001|COMPILER-004
+aave,Aave,0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9,3,block,82,critical,STORAGE-001|AUTH-009|ABI-001|COMPILER-002|ABI-003|COMPILER-001|COMPILER-004
+usdtb,USDtb,0xc139190f447e929f090edeb554d95abb8b18ac1c,1,block,100,critical,STORAGE-001|ABI-001|STORAGE-002|ABI-002|COMPILER-002|ABI-003|COMPILER-001|COMPILER-004

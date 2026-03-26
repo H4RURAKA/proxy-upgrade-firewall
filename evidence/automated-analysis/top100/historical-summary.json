@@ -1,0 +1,114 @@
+{
+  "generatedAt": "2026-03-25T04:51:59.096Z",
+  "rpcUrl": "https://ethereum-rpc.publicnode.com",
+  "source": "/Users/h4ru/Downloads/codes/extra/reports/live-mainnet-top100-comparable-ready.csv",
+  "readyCandidates": 16,
+  "latestBlock": 24732200,
+  "proxiesScanned": 16,
+  "proxiesWithUpgradeEvents": 15,
+  "proxiesWithActualPairs": 10,
+  "analyzedPairs": 27,
+  "suspiciousPairs": 11,
+  "errors": [],
+  "suspicious": [
+    {
+      "symbol": "wlfi",
+      "proxyAddress": "0xda5e1988097297dcdc1f90d4dfe7909e847cbef6",
+      "pairIndex": 1,
+      "verdict": "manual-review",
+      "riskScore": 51,
+      "findings": "ABI-001|ABI-002|ABI-003|COMPILER-001|COMPILER-003|COMPILER-004",
+      "reportPath": "reports/historical-upgrade-details/01-wlfi-20857295-to-23207432/report.json"
+    },
+    {
+      "symbol": "wlfi",
+      "proxyAddress": "0xda5e1988097297dcdc1f90d4dfe7909e847cbef6",
+      "pairIndex": 2,
+      "verdict": "manual-review",
+      "riskScore": 39,
+      "findings": "ABI-001|ABI-002|COMPILER-004",
+      "reportPath": "reports/historical-upgrade-details/02-wlfi-23207432-to-23835547/report.json"
+    },
+    {
+      "symbol": "usyc",
+      "proxyAddress": "0x136471a34f6ef19fe571effc1ca711fdb8e49f2b",
+      "pairIndex": 1,
+      "verdict": "manual-review",
+      "riskScore": 34,
+      "findings": "ABI-001|ABI-003|COMPILER-004|STORAGE-002",
+      "reportPath": "reports/historical-upgrade-details/01-usyc-17381914-to-17530913/report.json"
+    },
+    {
+      "symbol": "usyc",
+      "proxyAddress": "0x136471a34f6ef19fe571effc1ca711fdb8e49f2b",
+      "pairIndex": 2,
+      "verdict": "block",
+      "riskScore": 73,
+      "findings": "STORAGE-001|ABI-001|ABI-003|COMPILER-004",
+      "reportPath": "reports/historical-upgrade-details/02-usyc-17530913-to-17636683/report.json"
+    },
+    {
+      "symbol": "usyc",
+      "proxyAddress": "0x136471a34f6ef19fe571effc1ca711fdb8e49f2b",
+      "pairIndex": 3,
+      "verdict": "block",
+      "riskScore": 83,
+      "findings": "STORAGE-001|ABI-001|STORAGE-002|ABI-003|COMPILER-004",
+      "reportPath": "reports/historical-upgrade-details/03-usyc-17636683-to-18183121/report.json"
+    },
+    {
+      "symbol": "usyc",
+      "proxyAddress": "0x136471a34f6ef19fe571effc1ca711fdb8e49f2b",
+      "pairIndex": 4,
+      "verdict": "block",
+      "riskScore": 100,
+      "findings": "STORAGE-001|AUTH-004-setminterallowance-address-uint256|AUTH-005-setfeerecipient-address|AUTH-005-setmanagementfee-uint256|AUTH-005-setoracle-address|AUTH-005-setunderlying-address|ABI-001|STORAGE-002",
+      "reportPath": "reports/historical-upgrade-details/04-usyc-18183121-to-19562310/report.json"
+    },
+    {
+      "symbol": "usyc",
+      "proxyAddress": "0x136471a34f6ef19fe571effc1ca711fdb8e49f2b",
+      "pairIndex": 6,
+      "verdict": "block",
+      "riskScore": 100,
+      "findings": "STORAGE-001|AUTH-004-setteller-address|ABI-001|ABI-002|ABI-003|COMPILER-004",
+      "reportPath": "reports/historical-upgrade-details/06-usyc-19586120-to-20715368/report.json"
+    },
+    {
+      "symbol": "usyc",
+      "proxyAddress": "0x136471a34f6ef19fe571effc1ca711fdb8e49f2b",
+      "pairIndex": 8,
+      "verdict": "block",
+      "riskScore": 100,
+      "findings": "STORAGE-001|AUTH-004-sweep-address-uint256-address|AUTH-003|AUTH-005-upgradeto-address|AUTH-005-upgradetoandcall-address-bytes|ABI-001|AUTH-008|AUTH-009",
+      "reportPath": "reports/historical-upgrade-details/08-usyc-22976690-to-23977326/report.json"
+    },
+    {
+      "symbol": "aave",
+      "proxyAddress": "0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9",
+      "pairIndex": 1,
+      "verdict": "block",
+      "riskScore": 72,
+      "findings": "STORAGE-001|STORAGE-002|ABI-001|ABI-003|COMPILER-001|COMPILER-004",
+      "reportPath": "reports/historical-upgrade-details/01-aave-10978874-to-11451221/report.json"
+    },
+    {
+      "symbol": "aave",
+      "proxyAddress": "0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9",
+      "pairIndex": 3,
+      "verdict": "block",
+      "riskScore": 82,
+      "findings": "STORAGE-001|AUTH-009|ABI-001|COMPILER-002|ABI-003|COMPILER-001|COMPILER-004",
+      "reportPath": "reports/historical-upgrade-details/03-aave-16852321-to-18870593/report.json"
+    },
+    {
+      "symbol": "usdtb",
+      "proxyAddress": "0xc139190f447e929f090edeb554d95abb8b18ac1c",
+      "pairIndex": 1,
+      "verdict": "block",
+      "riskScore": 100,
+      "findings": "STORAGE-001|ABI-001|STORAGE-002|ABI-002|COMPILER-002|ABI-003|COMPILER-001|COMPILER-004",
+      "reportPath": "reports/historical-upgrade-details/01-usdtb-21287284-to-23569292/report.json"
+    }
+  ]
+}

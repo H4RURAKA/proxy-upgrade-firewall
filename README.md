@@ -82,17 +82,25 @@ This script:
 - runs the analyzer on real historical upgrades
 - writes CSV and JSON outputs under `reports/`
 
-### Automated Analysis Snapshot
+### Public Evaluation Artifacts
 
-- sampled `100` Ethereum token contracts on `2026-03-25`
-- found `16` live proxies that could be normalized into the `current vs proposed` comparison workflow
-- reconstructed `27` real historical implementation pairs from `Upgraded(address)` events
-- reduced the shortlist to `11` manual-review candidates after false-positive cleanup
-- this is a triage pipeline, not a confirmed vulnerability list
+Checked-in evaluation snapshots live under [evidence/automated-analysis/README.md](evidence/automated-analysis/README.md).
+
+- `2026-03-25` top100 snapshot:
+  - `16` ready live proxies
+  - `27` historical implementation pairs analyzed
+  - `11` suspicious pairs after heuristic cleanup
+- `2026-03-26` top300 snapshot:
+  - `56` ready live proxies
+  - `50` historical implementation pairs analyzed
+  - `19` suspicious pairs
+- The suspicious-pair rate stayed in the same range when the sample expanded from `100` to `300`, which is a useful sign that the analyzer is not obviously overfit to the smaller sample.
+- The bigger limitation is still coverage, not ranking: most contracts in the top300 sample could not be reconstructed into the full workflow because they did not expose a recoverable live implementation path or lacked a verified implementation bundle.
+- These artifacts are triage evidence, not confirmed vulnerability reports.
 
 Repository docs:
 
-- [docs/AUTOMATED_ANALYSIS.md](docs/AUTOMATED_ANALYSIS.md)
+- [evidence/automated-analysis/README.md](evidence/automated-analysis/README.md)
 - [docs/case-studies/usyc-pair-8.md](docs/case-studies/usyc-pair-8.md)
 - [docs/case-studies/usyc-pair-4.md](docs/case-studies/usyc-pair-4.md)
 - [docs/case-studies/wlfi-pair-1.md](docs/case-studies/wlfi-pair-1.md)
@@ -119,4 +127,5 @@ Repository docs:
 ## Notes
 
 - `reports/` is ignored by git. Evaluation scripts write local outputs there.
+- `evidence/automated-analysis/` contains checked-in snapshots that can be linked publicly from GitHub.
 - The historical exploration output is a review shortlist, not a confirmed vulnerability list.

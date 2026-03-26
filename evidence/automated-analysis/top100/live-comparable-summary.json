@@ -1,0 +1,25 @@
+{
+  "generatedAt": "2026-03-25T01:51:31.307Z",
+  "rpcUrl": "https://ethereum-rpc.publicnode.com",
+  "sampleSource": "CoinGecko markets + include_platform Ethereum addresses",
+  "requested": 100,
+  "completed": 100,
+  "failed": 8,
+  "comparable": 16,
+  "byKind": {
+    "non-eip1967-or-implementation-controlled": 28,
+    "uups-or-ownable-erc1967": 10,
+    "unknown": 47,
+    "admin-controlled-erc1967": 14,
+    "beacon": 1
+  },
+  "comparableByKind": {
+    "uups-or-ownable-erc1967": 5,
+    "admin-controlled-erc1967": 11
+  },
+  "reasons": {
+    "no_live_implementation": 76,
+    "ready": 16,
+    "sourcify_not_verified": 8
+  }
+}
